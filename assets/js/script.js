@@ -12,37 +12,38 @@ sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); }
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
+const modalContainer = document.querySelector("[data-modal-container]"); // This is ONLY for testimonials modal now
+const modalCloseBtn = document.querySelector("[data-modal-close-btn]"); // This is ONLY for testimonials modal now
+const overlay = document.querySelector("[data-overlay]"); // This is ONLY for testimonials modal now
 
-// modal variable
+// modal variable (for testimonials only)
 const modalImg = document.querySelector("[data-modal-img]");
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
 
-// modal toggle function
+// modal toggle function (for testimonials only)
 const testimonialsModalFunc = function () {
   modalContainer.classList.toggle("active");
   overlay.classList.toggle("active");
-  // Prevent body scrolling when modal is active
+  // Control body overflow for full-screen dimming effect
   document.body.style.overflow = modalContainer.classList.contains("active") ? "hidden" : "auto";
 }
 
-// add click event to all modal items
+// add click event to all modal items (testimonials only)
 for (let i = 0; i < testimonialsItem.length; i++) {
   testimonialsItem[i].addEventListener("click", function () {
     modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
     modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
     modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-    testimonialsModalFunc(); // Re-enabled modal opening
+    testimonialsModalFunc();
   });
 }
 
-// add click event to modal close button
+// add click event to modal close button (testimonials only)
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
+
 
 // custom select variables
 const select = document.querySelector("[data-select]");
@@ -126,12 +127,13 @@ for (let i = 0; i < navigationLinks.length; i++) {
     }
     // If navigating to the 'Blog' page, ensure the blog list is shown, not an article
     if (this.innerHTML.toLowerCase() === 'blog') {
-      document.getElementById('blog-list-container').style.display = 'block';
-      document.getElementById('blog-article-viewer').style.display = 'none';
+      document.getElementById('blog-list-container').style.display = 'block'; // Show list
+      document.getElementById('blog-article-content').style.display = 'none'; // Hide article
     }
-    // If navigating to 'Portfolio' page, ensure all items are shown if data is loaded
-    if (this.innerHTML.toLowerCase() === 'portfolio' && allPortfolioItems.length > 0) {
+    // If navigating to 'Portfolio' page, ensure all items are shown & detail is hidden
+    if (this.innerHTML.toLowerCase() === 'portfolio') {
         renderPortfolioItems(allPortfolioItems); // Show all portfolio items
+        document.getElementById('portfolio-detail-content').style.display = 'none'; // Hide detail
         // Reset filter button to 'All'
         document.querySelector('.filter-list .active')?.classList.remove('active');
         document.querySelector('[data-filter-btn][data-category="all"]').classList.add('active');
@@ -140,12 +142,11 @@ for (let i = 0; i < navigationLinks.length; i++) {
 }
 
 
-// --- NEW PORTFOLIO LOADING LOGIC ---
+// --- PORTFOLIO LOADING LOGIC (Modified for in-page display) ---
 
 const portfolioList = document.getElementById('project-list');
-const portfolioModalContainer = document.querySelector('[data-portfolio-modal-container]');
-const portfolioModalOverlay = document.querySelector('[data-portfolio-modal-overlay]');
-const portfolioModalCloseBtn = document.querySelector('[data-portfolio-modal-close-btn]');
+const portfolioDetailContent = document.getElementById('portfolio-detail-content'); // Get the new detail section
+const portfolioBackButton = document.getElementById('portfolio-back-button'); // New back button
 const portfolioModalImg = document.querySelector('[data-portfolio-modal-img]');
 const portfolioModalTitle = document.querySelector('[data-portfolio-modal-title]');
 const portfolioModalCategory = document.querySelector('[data-portfolio-modal-category]');
@@ -154,35 +155,31 @@ const portfolioModalDescription = document.querySelector('[data-portfolio-modal-
 
 let allPortfolioItems = []; // To store all fetched portfolio data
 
-// Function to open the portfolio modal
-const openPortfolioModal = function (item) {
+// Function to open the portfolio detail (in-page)
+const openPortfolioDetail = function (item) {
   portfolioModalImg.src = item.image;
   portfolioModalImg.alt = item.alt;
   portfolioModalTitle.textContent = item.title;
   portfolioModalCategory.textContent = item.category;
   portfolioModalCaption.textContent = item.caption;
-  portfolioModalDescription.textContent = item.long_description || ''; // Use long_description if available
+  portfolioModalDescription.textContent = item.long_description || '';
 
-  portfolioModalContainer.classList.add('active'); // Add active class to the container itself
-  portfolioModalOverlay.classList.add('active'); // Activate overlay
-  document.body.style.overflow = 'hidden'; // Prevent scrolling body when modal is open
+  portfolioList.style.display = 'none'; // Hide the project list
+  portfolioDetailContent.style.display = 'block'; // Show the detail content
+  window.scrollTo(0, 0); // Scroll to top of the detail content
 }
 
-// Function to close the portfolio modal
-const closePortfolioModal = function () {
-  portfolioModalContainer.classList.remove('active'); // Remove active class from the container
-  portfolioModalOverlay.classList.remove('active'); // Deactivate overlay
-  document.body.style.overflow = 'auto'; // Re-enable scrolling
+// Function to close the portfolio detail (in-page)
+const closePortfolioDetail = function () {
+  portfolioList.style.display = 'grid'; // Show the project list (as a grid)
+  portfolioDetailContent.style.display = 'none'; // Hide the detail content
+  window.scrollTo(0, 0); // Scroll to top of the list
 }
 
-// Add event listeners for closing the modal
-if (portfolioModalCloseBtn) {
-  portfolioModalCloseBtn.addEventListener('click', closePortfolioModal);
+// Add event listener for the "Back to Projects" button
+if (portfolioBackButton) {
+  portfolioBackButton.addEventListener('click', closePortfolioDetail);
 }
-if (portfolioModalOverlay) {
-  portfolioModalOverlay.addEventListener('click', closePortfolioModal);
-}
-
 
 /**
  * Renders portfolio items to the DOM.
@@ -192,12 +189,7 @@ const renderPortfolioItems = function (itemsToRender) {
   portfolioList.innerHTML = ''; // Clear current items
   itemsToRender.forEach(item => {
     const listItem = document.createElement('li');
-    // We add 'active' class here for initial display, filtering will re-render
-    listItem.classList.add('project-item', 'active');
-    // No need for data-filter-item or data-category on the list item itself
-    // as filtering will be handled by re-rendering the list.
-    // However, if your CSS relies on these for styling project-item, keep them.
-    // For dynamic filtering, we will manage what is appended.
+    listItem.classList.add('project-item', 'active'); // Add active class for display
 
     listItem.innerHTML = `
       <a href="#" data-project-id="${item.id}">
@@ -213,7 +205,7 @@ const renderPortfolioItems = function (itemsToRender) {
     `;
     portfolioList.appendChild(listItem);
 
-    // Add click listener to open modal
+    // Add click listener to open detail
     const projectLink = listItem.querySelector('a[data-project-id]');
     if (projectLink) {
       projectLink.addEventListener('click', function(event) {
@@ -221,7 +213,7 @@ const renderPortfolioItems = function (itemsToRender) {
         const clickedItemId = this.dataset.projectId;
         const selectedItem = allPortfolioItems.find(p => p.id === clickedItemId);
         if (selectedItem) {
-          openPortfolioModal(selectedItem); // Re-enabled modal opening
+          openPortfolioDetail(selectedItem);
         }
       });
     }
@@ -241,7 +233,6 @@ fetch("assets/data/portfolio.json")
     renderPortfolioItems(allPortfolioItems); // Render all initially
 
     // Now, let's update the filter functionality to use the new data-driven approach
-    // This part replaces the original `filterBtn` and `selectItems` loops for portfolio.
     const portfolioFilterBtns = document.querySelectorAll('[data-filter-btn]');
     portfolioFilterBtns.forEach(button => {
         button.addEventListener('click', function() {
@@ -279,88 +270,50 @@ fetch("assets/data/portfolio.json")
 // --- END PORTFOLIO LOADING LOGIC ---
 
 
-// --- NEW BLOG ARTICLE LOADING LOGIC ---
+// --- BLOG ARTICLE LOADING LOGIC (Modified for in-page display) ---
 
 const blogListContainer = document.getElementById('blog-list-container');
-const blogArticleViewer = document.getElementById('blog-article-viewer');
+const blogArticleContent = document.getElementById('blog-article-content'); // Get the new blog article section
 const articleContentDiv = document.getElementById('article-content');
 const blogBackButton = document.getElementById('blog-back-button');
 
 /**
- * Basic Markdown to HTML Converter
- * Handles:
- * - Headings (# H1, ## H2)
- * - Paragraphs
- * - Basic strong (**) and emphasis (*)
- * - Basic lists (-)
- * NOTE: For complex Markdown (tables, code blocks, etc.), consider a library like marked.js
- */
-function markdownToHtml(markdown) {
-    let html = markdown
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>') // H3
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')  // H2
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')   // H1
-        .replace(/^\s*-\s(.*$)/gim, '<li>$1</li>') // List items (simple)
-        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>') // Strong
-        .replace(/\*(.*?)\*/gim, '<em>$1</em>'); // Emphasis
-
-    // Convert lines that are not headings or lists into paragraphs
-    html = html.split('\n').map(line => {
-        if (!line.trim().startsWith('<h') && !line.trim().startsWith('<li') && line.trim() !== '') {
-            return `<p>${line.trim()}</p>`;
-        }
-        return line;
-    }).join('\n');
-
-    // Wrap list items in <ul> if necessary (very basic, might need refinement)
-    if (html.includes('<li>')) {
-      html = html.replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>');
-      html = html.replace(/<\/ul>\s*<ul>/g, ''); // Fix multiple ul tags
-    }
-
-    return html;
-}
-
-
-/**
- * Loads a Markdown article from the assets/posts directory and displays it.
- * @param {string} filename The name of the Markdown file (e.g., "sample-blog.md").
+ * Loads an HTML article from the assets/posts directory and displays it in-page.
+ * @param {string} filename The name of the HTML file (e.g., "sample-blog.html").
  */
 async function loadArticle(filename) {
-    const filePath = `assets/posts/${filename}`;
+    const filePath = `assets/posts/${filename}`; // Points to your HTML file now
     try {
         const response = await fetch(filePath);
         if (!response.ok) {
             throw new Error(`Failed to load article: ${response.statusText}`);
         }
-        const markdownContent = await response.text();
-        articleContentDiv.innerHTML = markdownToHtml(markdownContent);
+        const htmlContent = await response.text(); // Get raw HTML content
+        articleContentDiv.innerHTML = htmlContent; // Directly inject HTML
 
-        blogListContainer.style.display = 'none'; // Hide the list
-        blogArticleViewer.style.display = 'block';  // Show the article viewer
-        window.scrollTo(0, 0); // Scroll to top of the article
-        document.body.style.overflow = 'hidden'; // Prevent body scrolling
+        blogListContainer.style.display = 'none'; // Hide the blog list
+        blogArticleContent.style.display = 'block'; // Show the article content
+        window.scrollTo(0, 0); // Scroll to top of the article content
     } catch (error) {
         console.error("Error loading blog article:", error);
         articleContentDiv.innerHTML = `<p style="color: red;">Error loading article. Please try again later.</p>`;
         blogListContainer.style.display = 'block'; // Show list in case of error
-        blogArticleViewer.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enable body scrolling on error
+        blogArticleContent.style.display = 'none'; // Hide article on error
+        window.scrollTo(0, 0); // Scroll to top of the list
     }
 }
 
-// Event listener for the "Back to Blog Posts" button
+// Event listener for the "Back to Blog Posts" button (inside the article)
 if (blogBackButton) {
   blogBackButton.addEventListener('click', () => {
-    blogArticleViewer.style.display = 'none'; // Hide the article viewer
+    blogArticleContent.style.display = 'none'; // Hide the article content
     blogListContainer.style.display = 'block';  // Show the blog list
     window.scrollTo(0, 0); // Scroll to top of the list
-    document.body.style.overflow = 'auto'; // Re-enable body scrolling
   });
 }
 
 
-// BLOG POST LOADER (Modified)
+// BLOG POST LOADER (No change needed here, it still fetches posts.json)
 fetch("assets/data/posts.json")
   .then(response => response.json())
   .then(posts => {
@@ -394,7 +347,7 @@ fetch("assets/data/posts.json")
         blogLink.addEventListener('click', function(event) {
           event.preventDefault(); // Prevent default link navigation
           const filename = this.dataset.file;
-          loadArticle(filename); // Re-enabled article loading
+          loadArticle(filename); // Load article in-page
         });
       }
     });
@@ -407,19 +360,3 @@ function formatDate(dateString) {
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   return date.toLocaleDateString('en-US', options); // e.g. "Feb 23, 2022"
 }
-
-
-// --- Responsive adjustments for Modals / Article Viewer ---
-// This ensures that when a modal or article viewer is open, the body's overflow is managed
-// to prevent underlying content from scrolling, improving user experience.
-window.addEventListener('resize', () => {
-  const isTestimonialsModalActive = modalContainer.classList.contains('active');
-  const isPortfolioModalActive = portfolioModalContainer.classList.contains('active');
-  const isBlogArticleActive = blogArticleViewer.style.display === 'block';
-
-  if (isTestimonialsModalActive || isPortfolioModalActive || isBlogArticleActive) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
-});

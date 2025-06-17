@@ -139,7 +139,7 @@
 
 a { text-decoration: none; }
 
-li { list-style: none; }
+li { list-style: none; } /* KEEP this for global reset, but override specific lists */
 
 img, ion-icon, a, button, time, span { display: block; }
 
@@ -167,7 +167,10 @@ input, textarea {
 
 html { font-family: var(--ff-poppins); }
 
-body { background: var(--smoky-black); }
+body {
+  background: var(--smoky-black);
+  overflow-x: hidden; /* Added to prevent horizontal scrolling */
+}
 
 
 
@@ -296,7 +299,7 @@ article.active {
 }
 
 .content-card::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
   background: var(--bg-gradient-jet);
@@ -344,7 +347,7 @@ article[data-spotlight-card].has-spotlight .spotlight-effect-layer {
 }
 
 article[data-spotlight-card].has-spotlight::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -468,7 +471,7 @@ main {
 }
 
 .info_more-btn::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
   border-radius: inherit;
@@ -589,7 +592,7 @@ main {
 .navbar-link.active { color: var(--emerald-green); }
 
 .navbar-link.active::after {
-  content: "";
+  content: "",;
   position: absolute;
   bottom: 0px; /* Adjusted to 0px for closer alignment with the link's bottom padding */
   left: 50%;
@@ -789,9 +792,8 @@ main {
  * #testimonials-modal
  */
 
-/* Unified modal container for both testimonials and portfolio */
-.modal-container[data-modal-container], /* Testimonials modal */
-.modal-container[data-portfolio-modal-container] { /* Portfolio modal */
+/* Unified modal container for testimonials (still a fixed modal) */
+.modal-container[data-modal-container] {
   position: fixed;
   top: 0;
   left: 0;
@@ -809,22 +811,20 @@ main {
   transition: opacity var(--transition-1), visibility var(--transition-1);
 }
 
-/* Common active state for all modals */
-.modal-container[data-modal-container].active,
-.modal-container[data-portfolio-modal-container].active {
+/* Common active state for modal */
+.modal-container[data-modal-container].active {
   pointer-events: all;
   visibility: visible;
   opacity: 1;
 }
 
-/* Unified overlay for both modals */
-.overlay[data-overlay], /* Testimonials overlay */
-.overlay[data-portfolio-modal-overlay] { /* Portfolio overlay */
+/* Unified overlay for testimonials modal */
+.overlay[data-overlay] {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100vh; /* Ensure it covers the full viewport */
   background-color: hsl(0, 0%, 5%); /* Explicitly set background-color for overlay */
   opacity: 0; /* Invisible by default */
   visibility: hidden; /* Hidden by default */
@@ -833,36 +833,39 @@ main {
   transition: var(--transition-1); /* Smooth fade-in/out */
 }
 
-/* Common active state for all overlays */
-.overlay[data-overlay].active,
-.overlay[data-portfolio-modal-overlay].active {
+/* Common active state for overlay */
+.overlay[data-overlay].active {
   opacity: 0.8 !important; /* Semi-transparent */
   visibility: visible !important; /* Visible */
   pointer-events: all !important; /* Interactive (for closing on click outside) */
 }
 
-/* General modal style for both testimonials and portfolio */
-.testimonials-modal,
-.portfolio-modal { /* Apply general modal styles here */
+/* General modal style for testimonials pop-up */
+.testimonials-modal {
   background: var(--eerie-black-2);
-  position: relative;
-  padding: 15px;
-  margin: 15px 12px;
+  position: fixed; /* Keep fixed to center on scroll */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* For true centering */
+  padding: 20px; /* Increased padding within modal */
   border: 1px solid var(--jet);
   border-radius: 14px;
   box-shadow: var(--shadow-5);
-  transform: scale(1.2);
-  opacity: 0;
+  opacity: 0; /* Handled by modal-container active state */
   transition: var(--transition-1);
   z-index: 9999; /* Ensures it's above the overlay */
+  width: calc(100% - 40px); /* Adjust width for mobile (20px margin on each side) */
+  max-width: 500px; /* Default max-width for smaller screens */
+  max-height: 90vh; /* Limit height to viewport */
+  overflow-y: auto; /* Enable internal scrolling if content overflows */
 }
 
-/* Common active state for all modal content */
-.modal-container[data-modal-container].active .testimonials-modal,
-.modal-container[data-portfolio-modal-container].active .portfolio-modal {
-  transform: scale(1);
+/* Common active state for testimonial modal content (when parent modal-container is active) */
+.modal-container[data-modal-container].active .testimonials-modal {
+  transform: translate(-50%, -50%) scale(1); /* Ensure scale(1) happens on active */
   opacity: 1;
 }
+
 
 /* Common modal close button style */
 .modal-close-btn {
@@ -887,48 +890,64 @@ main {
 .modal-close-btn ion-icon { --ionicon-stroke-width: 50px; }
 
 
-/* Specific styles for portfolio modal content */
-.portfolio-modal-content {
-    width: 100%; /* Ensure content takes full width of the modal */
+/* Portfolio Detail Content - New in-page display */
+.portfolio-detail-content {
+    display: none; /* Hidden by default */
+    padding-top: 20px; /* Space from page title if needed */
+    padding-bottom: 20px;
+    max-width: 950px; /* Limit width for larger screens */
+    margin: 0 auto; /* Center content */
+}
+
+.portfolio-detail-content.active {
+    display: block; /* Show when active */
+}
+
+.portfolio-content-wrapper {
+    width: 100%; /* Ensure content takes full width */
+    max-width: 800px; /* Max width for readability */
+    margin: 0 auto; /* Center content */
     text-align: center; /* Center text content */
 }
 
-.portfolio-modal-img-box {
+.portfolio-detail-content .portfolio-modal-img-box {
     margin-bottom: 20px; /* Space below the image */
     border-radius: 8px; /* Rounded corners for the image container */
     overflow: hidden; /* Ensures image corners match container */
     box-shadow: var(--shadow-2); /* Apply a subtle shadow to the image */
+    height: 350px; /* Fixed height for consistency, adjust as needed */
 }
 
-.portfolio-modal-img-box img {
-    max-width: 100%; /* Image is responsive within its container */
-    height: auto;
+.portfolio-detail-content .portfolio-modal-img-box img {
+    width: 100%; /* Image is responsive within its container */
+    height: 100%; /* Image fills the fixed height container */
+    object-fit: cover; /* Cover the area, cropping if necessary */
     display: block;
     border-radius: inherit; /* Inherit border-radius from parent */
 }
 
-.portfolio-modal-content .h3 {
+.portfolio-detail-content .h3 {
     margin-top: 15px; /* Space above title */
     margin-bottom: 8px; /* Space below title */
     color: var(--white-1); /* Brighter white for the title */
     font-size: var(--fs-2); /* Uses your defined font size for h3 (24px at 580px+) */
 }
 
-.portfolio-modal-category {
+.portfolio-detail-content .portfolio-modal-category {
     color: var(--emerald-green); /* Accent color for category */
     font-size: var(--fs-6); /* Smaller font size for category */
     text-transform: capitalize;
     margin-bottom: 10px; /* Space below category */
 }
 
-.portfolio-modal-caption {
+.portfolio-detail-content .portfolio-modal-caption {
     color: var(--light-gray); /* Lighter gray for short caption */
     font-size: var(--fs-5); /* Slightly larger font for caption */
     line-height: 1.6;
     margin-bottom: 15px; /* Space below caption */
 }
 
-.portfolio-modal-description {
+.portfolio-detail-content .portfolio-modal-description {
     color: var(--light-gray); /* Lighter gray for detailed description */
     font-size: var(--fs-6); /* Consistent with body text size */
     line-height: 1.7;
@@ -938,17 +957,47 @@ main {
     margin-inline: auto; /* Center description text block */
 }
 
-/* Responsive adjustments for portfolio modal */
+/* Responsive adjustments for portfolio detail content */
 @media (min-width: 768px) {
-    .portfolio-modal {
+    .portfolio-detail-content {
         padding: 30px; /* More padding on larger screens */
-        max-width: 800px; /* Max width for the modal itself */
     }
-    .portfolio-modal-content .h3 {
+    .portfolio-detail-content .h3 {
         font-size: var(--fs-1); /* Larger title on desktop */
     }
 }
 
+
+/* Back button for portfolio detail */
+.portfolio-back-btn {
+    display: flex; /* Use flex for proper alignment of icon and text */
+    align-items: center;
+    justify-content: flex-start; /* Align to the start (left) */
+    gap: 8px;
+    color: var(--emerald-green);
+    font-size: var(--fs-5); /* Slightly larger font */
+    font-weight: var(--fw-500);
+    margin-bottom: 30px; /* More space below back button */
+    transition: color var(--transition-1);
+    background: transparent; /* Ensure no background */
+    border: none; /* Ensure no border */
+    padding: 5px 0; /* Minimal padding */
+    width: fit-content; /* Shrink to content width */
+    margin-left: 0; /* Remove specific left margin, rely on parent padding */
+    /* Ensure no positioning from modal-close-btn interferes */
+    position: relative; /* Override potential absolute positioning */
+    right: auto; /* Override potential 'right' positioning */
+    top: auto; /* Override potential 'top' positioning */
+}
+
+.portfolio-back-btn:hover {
+    color: var(--light-gray);
+}
+
+.portfolio-back-btn ion-icon {
+    --ionicon-stroke-width: 40px;
+    font-size: 20px; /* Slightly larger icon */
+}
 
 
 /*-----------------------------------*\
@@ -959,7 +1008,7 @@ main {
 
 .blog-posts-list {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr; /* Original default for smaller screens */
   gap: 20px;
 }
 
@@ -973,7 +1022,7 @@ main {
 }
 
 .blog-post-item > a::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
   border-radius: inherit;
@@ -1035,38 +1084,17 @@ main {
   line-height: 1.6;
 }
 
-/* NEW BLOG ARTICLE UI STYLES - REFINED FOR MEDIUM-LIKE LAYOUT */
-
+/* Blog Article Viewer - Now in-page display */
 .blog-article-content {
-    background: var(--eerie-black-2); /* Matches article background */
-    border: 1px solid var(--jet); /* Matches article border */
-    border-radius: 20px; /* Matches article border-radius */
-    padding: 30px; /* Increased padding for more breathing room */
-    box-shadow: var(--shadow-1); /* Matches article shadow */
-    margin-bottom: 20px; /* Space from other elements */
+    display: none; /* Hidden by default */
+    padding-top: 20px; /* Space from page title if needed */
+    padding-bottom: 20px;
+    max-width: 950px; /* Limit width for larger screens */
+    margin: 0 auto; /* Center content */
 }
 
-.blog-back-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--emerald-green);
-    font-size: var(--fs-5); /* Slightly larger font */
-    font-weight: var(--fw-500);
-    margin-bottom: 30px; /* More space below back button */
-    transition: color var(--transition-1);
-    background: transparent; /* Ensure no background */
-    border: none; /* Ensure no border */
-    padding: 5px 0; /* Minimal padding */
-}
-
-.blog-back-btn:hover {
-    color: var(--light-gray);
-}
-
-.blog-back-btn ion-icon {
-    --ionicon-stroke-width: 40px;
-    font-size: 20px; /* Slightly larger icon */
+.blog-article-content.active {
+    display: block; /* Show when active */
 }
 
 /* Styles for content parsed from Markdown */
@@ -1139,6 +1167,7 @@ main {
 .article-content-wrapper img {
     max-width: 100%; /* Ensure images are responsive */
     height: auto;
+    object-fit: contain; /* Ensure images fit within container */
     border-radius: 8px; /* Slightly rounded corners for images */
     margin: 2em auto; /* More vertical space, and center horizontally */
     display: block; /* Ensure margin auto works for centering */
@@ -1163,6 +1192,38 @@ main {
 }
 .blog-article-content .blog-meta .dot {
     background: var(--light-gray-70);
+}
+
+
+/* Back button for blog article */
+.blog-back-btn {
+    display: flex; /* Use flex for proper alignment of icon and text */
+    align-items: center;
+    justify-content: flex-start; /* Align to the start (left) */
+    gap: 8px;
+    color: var(--emerald-green);
+    font-size: var(--fs-5); /* Slightly larger font */
+    font-weight: var(--fw-500);
+    margin-bottom: 30px; /* More space below back button */
+    transition: color var(--transition-1);
+    background: transparent; /* Ensure no background */
+    border: none; /* Ensure no border */
+    padding: 5px 0; /* Minimal padding */
+    width: fit-content; /* Shrink to content width */
+    margin-left: 0; /* Remove specific left margin, rely on parent padding */
+    /* Ensure no positioning from modal-close-btn interferes */
+    position: relative; /* Override potential absolute positioning */
+    right: auto; /* Override potential 'right' positioning */
+    top: auto; /* Override potential 'top' positioning */
+}
+
+.blog-back-btn:hover {
+    color: var(--light-gray);
+}
+
+.blog-back-btn ion-icon {
+    --ionicon-stroke-width: 40px;
+    font-size: 20px; /* Slightly larger icon */
 }
 
 
@@ -1275,68 +1336,60 @@ textarea.form-input::-webkit-resizer { display: none; }
   #RESPONSIVE
 \*-----------------------------------*/
 
-/**
- * responsive larger than 450px screen
- */
+/* Mobile-specific adjustments for elements smaller than 580px */
+@media (max-width: 579px) {
+    /* Ensure sidebar and article are full width with padding on very small screens */
+    .sidebar, article {
+        max-width: 100%; /* Ensure full width */
+        margin-inline: 12px; /* Keep side margins */
+    }
 
-@media (min-width: 450px) {
+    /* Adjust modal padding to prevent being too small */
+    .testimonials-modal { /* Only testimonials modal remains fixed */
+        padding: 15px; /* Adjust internal padding to give more content space */
+        width: calc(100% - 24px); /* Maximize width, leaving 12px margin on each side */
+        margin: 0; /* Remove any lingering margins for fixed position */
+    }
 
-  /**
-   * client
-   */
+    /* Resume list styling for very small screens */
+    .timeline-list ul {
+      list-style: disc; /* Re-enable bullets */
+      padding-left: 20px; /* Adjust indentation */
+    }
 
-  /* Removed .clients-item rule */
-
-
-
-  /**
-   * #PORTFOLIO, BLOG
-   */
-
-  .project-img,
-  .blog-banner-box { height: auto; }
-
+    /**
+     * #PORTFOLIO, BLOG
+     */
+    .project-img,
+    .blog-banner-box { height: auto; }
 }
 
 
-
-
-
-/**
- * responsive larger than 580px screen
- */
-
+/* Responsive larger than 580px screen */
 @media (min-width: 580px) {
 
   /**
    * CUSTOM PROPERTY
    */
-
   :root {
-
     /**
      * typography
      */
-
     --fs-1: 32px;
     --fs-2: 24px;
-    --fs-3: 17px; /* Original value for fs-3, which is 17px */
+    --fs-3: 17px;
     --fs-4: 18px;
     --fs-6: 15px;
     --fs-7: 15px;
     --fs-8: 12px;
-
   }
-
-
 
   /**
    * #REUSED STYLE
    */
-
   .sidebar, article {
-    width: auto; /* Changed to auto to allow shrinking */
-    max-width: 520px; /* Set max-width for this breakpoint */
+    width: auto; /* Allow auto width for mobile/tablet */
+    max-width: 520px; /* Constrain max width for this breakpoint */
     margin-inline: auto; /* Center the element */
     padding: 30px;
   }
@@ -1358,23 +1411,17 @@ textarea.form-input::-webkit-resizer { display: none; }
     font-size: 18px;
   }
 
-
-
   /**
    * #MAIN
    */
-
   main {
     margin-top: 60px;
     margin-bottom: 100px;
   }
 
-
-
   /**
    * #SIDEBAR
    */
-
   .sidebar {
     max-height: 180px;
     margin-bottom: 30px;
@@ -1412,30 +1459,23 @@ textarea.form-input::-webkit-resizer { display: none; }
     width: calc(100% - 64px);
   }
 
-
-
   /**
    * #NAVBAR
    */
-
   .navbar { border-radius: 20px 20px 0 0; }
 
   .navbar-list { gap: 20px; }
 
   .navbar-link { --fs-8: 14px; }
 
-
-
   /**
    * #ABOUT
    */
-
   .about .article-title { margin-bottom: 20px; }
 
   .about-text { margin-bottom: 40px; }
 
   /* service */
-
   .service-item {
     display: flex;
     justify-content: flex-start;
@@ -1470,9 +1510,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     height: 90px;
   }
 
-
   /* testimonials */
-
   .testimonials-title { margin-bottom: 25px; }
 
   .testimonials-list {
@@ -1505,16 +1543,12 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   /* testimonials modal */
-
   .modal-container { padding: 20px; }
 
   .testimonials-modal {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 25px;
-    padding: 30px;
+    padding: 30px; /* Increased internal padding for larger modals */
     border-radius: 20px;
+    max-width: 500px; /* Larger max-width for tablets */
   }
 
   .modal-img-wrapper {
@@ -1536,14 +1570,9 @@ textarea.form-input::-webkit-resizer { display: none; }
     width: 35px;
   }
 
-  /* Removed clients section CSS from here */
-
-
-
   /**
    * #RESUME
    */
-
   .timeline-list {
     margin-left: 45px;
   }
@@ -1558,7 +1587,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   .timeline-list ul {
-    list-style: disc; /* Ensure bullets for unordered lists */
+    list-style: disc; /* Re-enable bullets */
     padding-left: 20px; /* Add indentation for list items */
     margin-top: 5px; /* Small top margin for lists */
     margin-bottom: 10px; /* More space below lists */
@@ -1585,24 +1614,16 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .skills-item:not(:last-child) { margin-bottom: 25px; }
 
-
-
   /**
    * #PORTFOLIO, BLOG
    */
-
   .project-img, .blog-banner-box { border-radius: 16px; }
 
-  .blog-posts-list { gap: 30px; }
-
   .blog-content { padding: 25px; }
-
-
 
   /**
    * #CONTACT
    */
-
   .mapbox {
     height: 380px;
     border-radius: 18px;
@@ -1618,62 +1639,79 @@ textarea.form-input::-webkit-resizer { display: none; }
   textarea.form-input { margin-bottom: 30px; }
 
   .form-btn {
-    --fs-6: 16px;
-    padding: 16px 20px;
+    position: relative;
+    width: 100%;
+    background: var(--border-gradient-onyx);
+    color: var(--emerald-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 20px;
+    border-radius: 14px;
+    font-size: var(--fs-6);
+    text-transform: capitalize;
+    box-shadow: var(--shadow-3);
+    z-index: 1;
+    transition: var(--transition-1);
   }
 
-  .form-btn ion-icon { font-size: 18px; }
+  .form-btn::before {
+    content: "",;
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: var(--bg-gradient-jet);
+    transition: var(--transition-1);
+    z-index: -1;
+  }
+
+  .form-btn:hover { background: var(--bg-gradient-emerald-1); }
+
+  .form-btn:hover::before { background: var(--bg-gradient-emerald-2); }
+
+  .form-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .form-btn:disabled:hover { background: var(--border-gradient-onyx); }
+
+  .form-btn:disabled:hover::before { background: var(--bg-gradient-jet); }
 
 }
 
 
-
-
-
-/**
- * responsive larger than 768px screen
- */
-
+/* Responsive larger than 768px screen */
 @media (min-width: 768px) {
 
   /**
    * REUSED STYLE
    */
-
   .sidebar, article {
-    width: auto; /* Changed to auto to allow shrinking */
-    max-width: 700px; /* Set max-width for this breakpoint */
+    width: auto; /* Allow auto width for mobile/tablet */
+    max-width: 700px; /* Constrain max width for this breakpoint */
   }
 
   .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
 
-
-
   /**
    * SIDEBAR
    */
-
   .contacts-list {
     grid-template-columns: 1fr 1fr;
     gap: 30px 15px;
   }
 
-
-
   /**
    * NAVBAR
    */
-
   .navbar-link { --fs-8: 15px; }
-
-
 
   /**
    * ABOUT
    */
-
   /* testimonials modal */
-
   .testimonials-modal {
     gap: 35px;
     max-width: 680px;
@@ -1681,18 +1719,18 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .modal-avatar-box img { width: 80px; }
 
-
-
   /**
    * PORTFOLIO
    */
-
   .article-title { padding-bottom: 20px; }
 
-  .filter-select-box { display: none; } /* Hide dropdown on desktop */
+  /* Adjustments for filter display */
+  .filter-select-box {
+    display: none; /* Hide dropdown on desktop and tablet */
+  }
 
   .filter-list {
-    display: flex; /* Show filter buttons on desktop */
+    display: flex; /* Show filter buttons on desktop and tablet */
     justify-content: flex-start;
     align-items: center;
     gap: 25px;
@@ -1711,7 +1749,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .filter-item button.active { color: var(--emerald-green); }
 
   /* portfolio and blog grid */
-
   .project-list {
     display: grid; /* Explicitly set display grid */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adaptive columns */
@@ -1720,7 +1757,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
   .blog-posts-list {
     display: grid; /* Explicitly set display grid */
-    grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+    grid-template-columns: 1fr 1fr; /* Reverted to original for 768px+ */
     gap: 30px; /* Keep consistent gap */
   }
 
@@ -1728,7 +1765,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     min-width: 0; /* Allow flex/grid items to shrink below their content size */
     width: auto; /* Allow item to size based on grid */
     line-height: normal; /* Allow normal line height for text */
-    /* Remove overflow: visible here, let .project-img handle clipping */
   }
   .project-img {
     position: relative; /* Added for absolute positioning of the icon */
@@ -1742,7 +1778,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     height: 100%;
     object-fit: cover; /* Cover the area, cropping if necessary */
     display: block; /* Remove any extra spacing */
-    /* Removed vertical-align: top; as display: block handles vertical positioning */
   }
 
   /* Corrected eye icon visibility and z-index */
@@ -1777,86 +1812,62 @@ textarea.form-input::-webkit-resizer { display: none; }
     color: var(--light-gray-70); /* Set to light gray */
   }
 
-
   /**
    * CONTACT
    */
-
   .input-wrapper { grid-template-columns: 1fr 1fr; }
 
   .form-btn {
     width: max-content;
     margin-left: auto;
   }
-
 }
 
 
-
-
-
-/**
- * responsive larger than 1024px screen
- */
-
+/* Responsive larger than 1024px screen */
 @media (min-width: 1024px) {
 
   /**
    * CUSTOM PROPERTY
    */
-
   :root {
-
     /**
     * shadow
     */
-
     --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.125);
     --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.125);
     --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.125);
-
   }
-
-
 
   /**
    * REUSED STYLE
    */
-
   .sidebar, article {
-    width: auto; /* Changed to auto to allow shrinking */
-    max-width: 950px; /* Set max-width for this breakpoint */
+    width: auto; /* Allow auto width for larger screens */
+    max-width: 950px; /* Constrain max width for this breakpoint */
     box-shadow: var(--shadow-5);
   }
-
-
 
   /**
    * MAIN
    */
-
   main { margin-bottom: 60px; }
 
   .main-content {
     position: relative;
-    /* Corrected width from max-content to a fixed percentage */
     width: 75%; /* Changed from max-content */
     margin: auto;
   }
 
-
-
   /**
    * NAVBAR
    */
-
   .navbar {
     position: absolute;
     bottom: auto;
     top: 0;
     left: auto;
     right: 0;
-    /* Corrected width from max-content to 100% to fit parent */
     width: auto; /* Changed to auto for better responsiveness */
     border-radius: 0 20px;
     padding: 0 20px;
@@ -1866,20 +1877,15 @@ textarea.form-input::-webkit-resizer { display: none; }
   .navbar-list {
     gap: 30px;
     padding: 0 20px;
-    /* Added alignment for larger screens */
     justify-content: flex-end;
   }
 
   .navbar-link { font-weight: var(--fw-500); }
 
-
-
   /**
    * ABOUT
    */
-
   /* service */
-
   .service-list {
     grid-template-columns: 1fr 1fr;
     gap: 20px 25px;
@@ -1905,16 +1911,11 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   /* testimonials */
-
   .testimonials-item { min-width: calc(50% - 15px); }
-
-  /* Removed clients section CSS from here */
-
 
   /**
    * PORTFOLIO
    */
-
   .project-list {
     display: grid; /* Explicitly set display grid */
     grid-template-columns: repeat(3, 1fr); /* Three columns on larger screens */
@@ -1922,30 +1923,21 @@ textarea.form-input::-webkit-resizer { display: none; }
     padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
   }
 
-
-
   /**
    * BLOG
    */
-
+  /* At 1024px+, no specific grid-template-columns for blog-posts-list in original.
+     It will inherit from 768px+ which is 1fr 1fr. */
   .blog-banner-box { height: 230px; }
-
 }
 
 
-
-
-
-/**
- * responsive larger than 1250px screen
- */
-
+/* Responsive larger than 1250px screen */
 @media (min-width: 1250px) {
 
   /**
    * RESET
    */
-
   body::-webkit-scrollbar { width: 20px; }
 
   body::-webkit-scrollbar-track { background: var(--smoky-black); }
@@ -1962,22 +1954,16 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   body::-webkit-scrollbar-button { height: 60px; }
 
-
-
   /**
    * REUSED STYLE
    */
-
   .sidebar, article { width: auto; } /* Let main grid handle width */
 
   article { min-height: 100%; }
 
-
-
   /**
    * MAIN
    */
-
   main {
     max-width: 1200px;
     margin-inline: auto;
@@ -1993,12 +1979,9 @@ textarea.form-input::-webkit-resizer { display: none; }
     margin: 0;
   }
 
-
-
   /**
    * SIDEBAR
    */
-
   .sidebar {
     position: sticky;
     top: 60px;
@@ -2047,12 +2030,9 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .social-list { justify-content: center; }
 
-
-
   /**
 	 * RESUME
 	 */
-
   .timeline-text { max-width: 700px; }
 
 }

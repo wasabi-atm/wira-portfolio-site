@@ -1,18 +1,26 @@
 [
   {
-    "file": "sample-blog.md",
-    "thumbnail": "./assets/images/blog-1.jpg",
-    "title": "My First Blog Post",
-    "category": "Technology",
-    "date": "2025-06-07",
-    "preview": "An exciting preview of my first blog post about technology."
+    "file": "2022-g20-volunteer-leader.html",
+    "thumbnail": "https://baytarrahmah.org/wp-content/uploads/2022/09/01_R20-Official-Banner_722x435.jpg",
+    "title": "The Story of Being 2022 G20 Volunteer Leader",
+    "category": "Leadership",
+    "date": "2022-11-16",
+    "preview": "How I led a team of 30 volunteers for the G20's Religion of Twenty (R20) sub-event, managing logistics, budget, and cross-functional coordination under high pressure."
   },
   {
-    "file": "another-blog.md",
-    "thumbnail": "./assets/images/blog-2.jpg",
-    "title": "Another Great Read",
+    "file": "The-Uncomfortable-Truth--Why-Designers-Who-Ignore-Code-Will-Be-Left-Behind-After-2025.html",
+    "thumbnail": "https://cdn-images-1.medium.com/max/800/1*JOWdHhdLRyFZK6o0QwnfyA.png",
+    "title": "The Uncomfortable Truth: Why Designers Who Ignore Code Will Be Left Behind After 2025",
     "category": "Design",
-    "date": "2025-06-08",
-    "preview": "A sneak peek into another interesting design article."
+    "date": "2025-05-14",
+    "preview": "In the fast-evolving tech landscape, knowing how to design isn’t enough. This article dives into the uncomfortable truth facing many creatives: designers who shy away from code risk becoming irrelevant. Discover why bridging the gap between design and development is no longer optional—and how embracing code can future-proof your career."
+  },
+  {
+    "file": "Carma-Driving-Mindfulness-1c646dc82eda81618b4cef5b0b50c0de.html",
+    "thumbnail": "https://i.ibb.co/3yqzj80W/Iphone14-Pro-Mockup01-Micro-Volume.png",
+    "title": "Case Study: Solo Development of Carma - Driving Mindfulness",
+    "category": "Design",
+    "date": "2025-03-28",
+    "preview": "Carma - Driving Mindfulness is an app designed to help users manage stress and be more mindful during traffic, delivering calming sounds and audio prompts without screen distraction. This solo project involved user research, prototyping, and iOS development."
   }
 ]

@@ -222,7 +222,7 @@
                 <p class="service-item-text">
                   Keeping projects organized, on track, and collaborative.
                 </p>
-              </div>
+              </p>
 
             </li>
 
@@ -422,10 +422,12 @@
               <p class="timeline-text">
                 International Relations
               </p>
-              <p class="timeline-text">
-                Relevant coursework: President of Hindu Activity Unit, Jember Branch President at KMHDI, Part of Faculty’s
-                International Accreditation Team, Member of Model United Nation (MUN) Activity Unit.
-              </p>
+              <ul class="timeline-text">
+                <li>President of Hindu Activity Unit</li>
+                <li>Jember Branch President at KMHDI</li>
+                <li>Part of Faculty’s International Accreditation Team</li>
+                <li>Member of Model United Nation (MUN) Activity Unit.</li>
+              </ul>
 
             </li>
 
@@ -508,8 +510,7 @@
               <p class="timeline-text">
                
     I design 2–3 articles and email marketing visuals weekly using Beefree, while coordinating directly with clients to align content with their restaurant promotions. I handle customer support follow-ups, use basic HTML to build newsletters, and segment mailing lists for targeted campaigns. I also generate monthly performance reports and contribute to strategic planning for each client’s marketing efforts. Beyond that, I create Shopify-based e-commerce websites, manage team schedules in Google Sheets, and assist the development team with app and system updates across beta and production environments.
-  </ul>
-              </p>
+  </p>
 
             </li>
 
@@ -609,23 +610,22 @@ My job description alias is the Lead Visual Designer for ClickSwipe.
 
         </section>
 
-        <div class="modal-container" data-portfolio-modal-container >
-          <div class="overlay" data-portfolio-modal-overlay></div>
-          <section class="portfolio-modal">
-            <button class="modal-close-btn" data-portfolio-modal-close-btn>
-              <ion-icon name="close-outline"></ion-icon>
+        <!-- Portfolio Detail Content - Now in-page -->
+        <section class="portfolio-detail-content" id="portfolio-detail-content">
+            <button class="portfolio-back-btn" id="portfolio-back-button">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+                <span>Back to Projects</span>
             </button>
-            <div class="portfolio-modal-content">
-              <figure class="portfolio-modal-img-box">
-                <img src="" alt="Portfolio image preview" data-portfolio-modal-img>
-              </figure>
-              <h3 class="h3" data-portfolio-modal-title></h3>
-              <p class="portfolio-modal-category" data-portfolio-modal-category></p>
-              <p class="portfolio-modal-caption" data-portfolio-modal-caption></p>
-              <p class="portfolio-modal-description" data-portfolio-modal-description></p>
+            <div class="portfolio-content-wrapper">
+                <figure class="portfolio-modal-img-box">
+                    <img src="" alt="Portfolio image preview" data-portfolio-modal-img>
+                </figure>
+                <h3 class="h3" data-portfolio-modal-title></h3>
+                <p class="portfolio-modal-category" data-portfolio-modal-category></p>
+                <p class="portfolio-modal-caption" data-portfolio-modal-caption></p>
+                <p class="portfolio-modal-description" data-portfolio-modal-description></p>
             </div>
-          </section>
-        </div>
+        </section>
         </article>
 
 
@@ -640,12 +640,13 @@ My job description alias is the Lead Visual Designer for ClickSwipe.
             </ul>
         </section>
 
-        <section class="blog-article-content" id="blog-article-viewer" style="display: none;">
-          <button class="blog-back-btn" id="blog-back-button">
-            <ion-icon name="arrow-back-outline"></ion-icon>
-            <span>Back to Blog Posts</span>
-          </button>
-          <div id="article-content" class="article-content-wrapper">
+        <!-- Blog Article Viewer - Now in-page -->
+        <section class="blog-article-content" id="blog-article-content">
+            <button class="blog-back-btn" id="blog-back-button">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+                <span>Back to Blog Posts</span>
+            </button>
+            <div id="article-content" class="article-content-wrapper">
             </div>
         </section>
 
@@ -692,9 +693,6 @@ My job description alias is the Lead Visual Designer for ClickSwipe.
       </article>
 
     </div>
-
-    <!-- New global dimming overlay -->
-    <div class="global-dim-overlay" data-global-dim-overlay></div>
 
   </main>
 
