@@ -1,0 +1,18 @@
+[
+  {
+    "file": "sample-blog.md",
+    "thumbnail": "./assets/images/blog-1.jpg",
+    "title": "My First Blog Post",
+    "category": "Technology",
+    "date": "2025-06-07",
+    "preview": "An exciting preview of my first blog post about technology."
+  },
+  {
+    "file": "another-blog.md",
+    "thumbnail": "./assets/images/blog-2.jpg",
+    "title": "Another Great Read",
+    "category": "Design",
+    "date": "2025-06-08",
+    "preview": "A sneak peek into another interesting design article."
+  }
+]

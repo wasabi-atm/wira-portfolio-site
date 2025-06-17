@@ -24,34 +24,34 @@
   /* gradient */
 
   --bg-gradient-onyx: linear-gradient(
-    to bottom right, 
-    hsl(240, 1%, 25%) 3%, 
+    to bottom right,
+    hsl(240, 1%, 25%) 3%,
     hsl(0, 0%, 19%) 97%
   );
   --bg-gradient-jet: linear-gradient(
-    to bottom right, 
-    hsla(240, 1%, 18%, 0.251) 0%, 
+    to bottom right,
+    hsla(240, 1%, 18%, 0.251) 0%,
     hsla(240, 2%, 11%, 0) 100%
   ), hsl(240, 2%, 13%);
-  --bg-gradient-yellow-1: linear-gradient(
-    to bottom right, 
-    hsl(125, 100%, 71%) 0%, 
-    hsla(36, 100%, 69%, 0) 50%
+  --bg-gradient-emerald-1: linear-gradient( /* Renamed from --bg-gradient-emerald-1 */
+    to bottom right,
+    hsl(160, 100%, 41%) 0%, /* A vibrant emerald green */
+    hsla(160, 100%, 41%, 0) 50%
   );
-  --bg-gradient-yellow-2: linear-gradient(
-    135deg, 
-    hsla(134, 100%, 27%, 0.251) 0%, 
-    hsla(35, 100%, 68%, 0) 59.86%
+  --bg-gradient-emerald-2: linear-gradient( /* Renamed from --bg-gradient-emerald-2 */
+    135deg,
+    hsla(160, 100%, 41%, 0.251) 0%, /* Lighter, semi-transparent emerald */
+    hsla(160, 100%, 41%, 0) 59.86%
   ), hsl(240, 2%, 13%);
   --border-gradient-onyx: linear-gradient(
-    to bottom right, 
-    hsl(0, 0%, 25%) 0%, 
+    to bottom right,
+    hsl(0, 0%, 25%) 0%,
     hsla(0, 0%, 25%, 0) 50%
   );
-  --text-gradient-yellow: linear-gradient(
-    to right, 
-    hsl(117, 100%, 72%), 
-    hsl(120, 100%, 68%)
+  --text-gradient-mint: linear-gradient( /* Renamed from --text-gradient-mint */
+    to right,
+    hsl(160, 100%, 60%), /* A lighter, fresh mint green */
+    hsl(170, 100%, 50%)
   );
 
   /* solid */
@@ -63,8 +63,8 @@
   --smoky-black: hsl(0, 0%, 7%);
   --white-1: hsl(0, 0%, 100%);
   --white-2: hsl(0, 0%, 98%);
-  --orange-yellow-crayola: hsl(118, 80%, 40%);
-  --vegas-gold: hsl(118, 54%, 58%);
+  --emerald-green: hsl(160, 100%, 41%); /* Renamed from --emerald-green */
+  --jade-green: hsl(150, 45%, 45%); /* Renamed from --jade-green, a muted jade */
   --light-gray: hsl(0, 0%, 84%);
   --light-gray-70: hsla(0, 0%, 84%, 0.7);
   --bittersweet-shimmer: hsl(0, 43%, 51%);
@@ -95,7 +95,7 @@
   /**
    * shadow
    */
-  
+
   --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
   --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.25);
   --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.25);
@@ -109,6 +109,18 @@
   --transition-1: 0.25s ease;
   --transition-2: 0.5s ease-in-out;
 
+  --gradient-name-start: hsl(200, 100%, 70%);
+  --gradient-name-end: hsl(280, 100%, 70%);
+
+  --spotlight-color-light: hsla(200, 100%, 80%, 0.2);
+  --spotlight-color-dark: hsla(200, 100%, 80%, 0);
+  --spotlight-size: 250px;
+
+  /* Variables for mouse position and rotation values */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
 }
 
 
@@ -147,11 +159,11 @@ input, textarea {
 }
 
 ::selection {
-  background: var(--orange-yellow-crayola);
+  background: var(--emerald-green);
   color: var(--smoky-black);
 }
 
-:focus { outline-color: var(--orange-yellow-crayola); }
+:focus { outline-color: var(--emerald-green); }
 
 html { font-family: var(--ff-poppins); }
 
@@ -192,7 +204,7 @@ article {
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: var(--orange-yellow-crayola);
+  color: var(--emerald-green);
   box-shadow: var(--shadow-1);
   z-index: 1;
 }
@@ -245,13 +257,13 @@ article.active {
 }
 
 .article-title::after {
-  content: "";
+  content: "",;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 30px;
   height: 3px;
-  background: var(--text-gradient-yellow);
+  background: var(--text-gradient-mint);
   border-radius: 3px;
 }
 
@@ -266,7 +278,7 @@ article.active {
 }
 
 .has-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--orange-yellow-crayola);
+  background: var(--emerald-green);
   border-radius: 5px;
 }
 
@@ -292,8 +304,73 @@ article.active {
   z-index: -1;
 }
 
+/* Ensure article can grow to fit content */
+article[data-spotlight-card] {
+  position: relative;
+  overflow: hidden;   /* Keep for spotlight effect */
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
+  perspective: 1000px;
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 20px;
+  box-shadow: var(--shadow-1);
+  transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+  /* Added/Adjusted properties for content overflow */
+  min-height: auto; /* Allow height to be determined by content */
+  height: auto; /* Allow height to be determined by content */
+  padding-bottom: 30px; /* Add general padding to the bottom of the article */
+}
 
+.spotlight-effect-layer {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
 
+  background: radial-gradient(
+    circle var(--spotlight-size) at var(--mouse-x) var(--mouse-y),
+    var(--spotlight-color-light),
+    var(--spotlight-color-dark)
+  );
+  background-size: var(--spotlight-size) var(--spotlight-size);
+  background-position: var(--mouse-x) var(--mouse-y);
+}
+
+article[data-spotlight-card].has-spotlight .spotlight-effect-layer {
+  opacity: 1;
+}
+
+article[data-spotlight-card].has-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(
+    circle var(--spotlight-size) at var(--mouse-x) var(--mouse-y),
+    var(--spotlight-color-light) 0%,
+    var(--spotlight-color-dark) 80%
+  );
+  -webkit-mask-image: radial-gradient(circle var(--spotlight-size) at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+  mask-image: radial-gradient(circle var(--spotlight-size) at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+article[data-spotlight-card].has-spotlight::before {
+    opacity: 0.1; /* Adjust intensity of the inner glow */
+}
+
+/* Ensure content stays on top of the spotlight effect */
+article[data-spotlight-card] > header,
+article[data-spotlight-card] > section {
+  position: relative; /* Ensure content is above spotlight layer */
+  z-index: 2; /* Higher than spotlight-effect-layer (z-index 1) */
+}
 
 
 /*-----------------------------------*\
@@ -301,7 +378,8 @@ article.active {
 \*-----------------------------------*/
 
 main {
-  margin: 15px 12px;
+  margin-inline: 12px; /* Changed from 15px 12px to fluid side margins */
+  margin-top: 15px;
   margin-bottom: 75px;
   min-width: 259px;
 }
@@ -329,6 +407,27 @@ main {
   justify-content: flex-start;
   align-items: center;
   gap: 15px;
+}
+
+.sidebar-info .name {
+  /* Apply the gradient as a background */
+  background-image: linear-gradient(to right, var(--gradient-name-start), var(--gradient-name-end));
+
+  /* Clip the background to the text shape (Webkit-specific) */
+  -webkit-background-clip: text;
+  background-clip: text; /* Added for compatibility */
+  -webkit-text-fill-color: transparent;
+
+  /* Fallback for browsers that don't support -webkit-text-fill-color (though widely supported) */
+  color: transparent;
+
+  /* Ensure no default text-shadow or other conflicting text styles */
+  text-shadow: none;
+  text-transform: none; /* If you want to remove any existing capitalize */
+
+  /* Optional: Adjust font weight or size if needed for the effect */
+  font-weight: var(--fw-600); /* Make it bolder to show gradient more */
+  font-size: var(--fs-1); /* Adjust size if needed, using your variable */
 }
 
 .avatar-box {
@@ -360,7 +459,7 @@ main {
   right: -15px;
   border-radius: 0 15px;
   font-size: 13px;
-  color: var(--orange-yellow-crayola);
+  color: var(--emerald-green);
   background: var(--border-gradient-onyx);
   padding: 10px;
   box-shadow: var(--shadow-2);
@@ -379,10 +478,10 @@ main {
 }
 
 .info_more-btn:hover,
-.info_more-btn:focus { background: var(--bg-gradient-yellow-1); }
+.info_more-btn:focus { background: var(--bg-gradient-emerald-1); }
 
 .info_more-btn:hover::before,
-.info_more-btn:focus::before { background: var(--bg-gradient-yellow-2); }
+.info_more-btn:focus::before { background: var(--bg-gradient-emerald-2); }
 
 .info_more-btn span { display: none; }
 
@@ -476,18 +575,30 @@ main {
 }
 
 .navbar-link {
+  position: relative; /* Added to position ::after correctly */
   color: var(--light-gray);
   font-size: var(--fs-8);
   padding: 20px 7px;
+  padding-bottom: 23px; /* Added bottom padding to push the pill down */
   transition: color var(--transition-1);
 }
 
 .navbar-link:hover,
 .navbar-link:focus { color: var(--light-gray-70); }
 
-.navbar-link.active { color: var(--orange-yellow-crayola); }
+.navbar-link.active { color: var(--emerald-green); }
 
-
+.navbar-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0px; /* Adjusted to 0px for closer alignment with the link's bottom padding */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px; /* Adjust width of the pill */
+  height: 3px; /* Adjust height of the pill */
+  background: var(--emerald-green); /* Color of the pill */
+  border-radius: 1.5px; /* Rounded corners for the pill */
+}
 
 
 
@@ -509,7 +620,7 @@ main {
 
 
 /**
- * #service 
+ * #service
  */
 
 .service { margin-bottom: 35px; }
@@ -532,7 +643,7 @@ main {
 }
 
 .service-item::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
   background: var(--bg-gradient-jet);
@@ -557,7 +668,73 @@ main {
 
 
 /**
- * #testimonials 
+ * #Tech Stack Section
+ */
+.tech-stack {
+  margin-top: 35px; /* Space above this section */
+  margin-bottom: 35px; /* Space below this section */
+}
+
+.tech-stack-title {
+  margin-bottom: 20px; /* Space below the title */
+}
+
+.logo-carousel-container {
+  overflow: hidden; /* Hide overflowing content for the carousel */
+  width: 100%;
+  padding: 20px 0; /* Vertical padding inside the carousel container */
+  background: var(--onyx); /* A slightly different background for the carousel track */
+  border-radius: 14px;
+  box-shadow: var(--shadow-1);
+}
+
+.logo-carousel {
+  display: flex;
+  white-space: nowrap; /* Keep all items on one line */
+  animation: scroll-left 30s linear infinite; /* Adjusted duration for faster, smooth loop */
+  width: max-content; /* Forces the carousel to expand to its full content width */
+  will-change: transform; /* Hint to browser for performance optimization */
+}
+
+.logo-item {
+  flex-shrink: 0; /* Prevent items from shrinking */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px; /* Space between logos */
+}
+
+.logo-item img {
+  width: 80px; /* Adjust logo size */
+  height: 80px;
+  object-fit: contain; /* Ensure the entire logo is visible within its bounds */
+  filter: grayscale(100%); /* Desaturate logos to make them less prominent */
+  opacity: 0.7; /* Make them semi-transparent */
+  transition: filter 0.3s ease, opacity 0.3s ease; /* Smooth transition on hover */
+  border-radius: 10px; /* Rounded corners for logos */
+}
+
+.logo-item img:hover {
+  filter: grayscale(0%); /* Full color on hover */
+  opacity: 1; /* Fully opaque on hover */
+}
+
+/* Keyframes for the infinite horizontal scrolling animation */
+@keyframes scroll-left {
+  0% { transform: translateX(0%); }
+  /* Scrolls half the width of the duplicated content to create a seamless loop.
+     This assumes you have duplicated your logos once inside .logo-carousel. */
+  100% { transform: translateX(-50%); }
+}
+
+/* Pause animation on hover for a better user experience */
+.logo-carousel-container:hover .logo-carousel {
+  animation-play-state: paused;
+}
+
+
+/**
+ * #testimonials
  */
 
 .testimonials { margin-bottom: 30px; }
@@ -612,7 +789,9 @@ main {
  * #testimonials-modal
  */
 
-.modal-container {
+/* Unified modal container for both testimonials and portfolio */
+.modal-container[data-modal-container], /* Testimonials modal */
+.modal-container[data-portfolio-modal-container] { /* Portfolio modal */
   position: fixed;
   top: 0;
   left: 0;
@@ -623,39 +802,48 @@ main {
   align-items: center;
   overflow-y: auto;
   overscroll-behavior: contain;
-  z-index: 20;
+  z-index: 9999; /* Very high z-index to be on top of everything */
   pointer-events: none;
   visibility: hidden;
+  opacity: 0; /* Control visibility with opacity for smooth transition */
+  transition: opacity var(--transition-1), visibility var(--transition-1);
 }
 
-.modal-container::-webkit-scrollbar { display: none; }
-
-.modal-container.active {
+/* Common active state for all modals */
+.modal-container[data-modal-container].active,
+.modal-container[data-portfolio-modal-container].active {
   pointer-events: all;
   visibility: visible;
+  opacity: 1;
 }
 
-.overlay {
+/* Unified overlay for both modals */
+.overlay[data-overlay], /* Testimonials overlay */
+.overlay[data-portfolio-modal-overlay] { /* Portfolio overlay */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: hsl(0, 0%, 5%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 1;
-  transition: var(--transition-1);
+  background-color: hsl(0, 0%, 5%); /* Explicitly set background-color for overlay */
+  opacity: 0; /* Invisible by default */
+  visibility: hidden; /* Hidden by default */
+  pointer-events: none; /* Non-interactive by default */
+  z-index: 9998; /* Just below the modal itself */
+  transition: var(--transition-1); /* Smooth fade-in/out */
 }
 
-.overlay.active {
-  opacity: 0.8;
-  visibility: visible;
-  pointer-events: all;
+/* Common active state for all overlays */
+.overlay[data-overlay].active,
+.overlay[data-portfolio-modal-overlay].active {
+  opacity: 0.8 !important; /* Semi-transparent */
+  visibility: visible !important; /* Visible */
+  pointer-events: all !important; /* Interactive (for closing on click outside) */
 }
 
-.testimonials-modal {
+/* General modal style for both testimonials and portfolio */
+.testimonials-modal,
+.portfolio-modal { /* Apply general modal styles here */
   background: var(--eerie-black-2);
   position: relative;
   padding: 15px;
@@ -666,14 +854,17 @@ main {
   transform: scale(1.2);
   opacity: 0;
   transition: var(--transition-1);
-  z-index: 2;
+  z-index: 9999; /* Ensures it's above the overlay */
 }
 
-.modal-container.active .testimonials-modal {
+/* Common active state for all modal content */
+.modal-container[data-modal-container].active .testimonials-modal,
+.modal-container[data-portfolio-modal-container].active .portfolio-modal {
   transform: scale(1);
   opacity: 1;
 }
 
+/* Common modal close button style */
 .modal-close-btn {
   position: absolute;
   top: 15px;
@@ -695,338 +886,68 @@ main {
 
 .modal-close-btn ion-icon { --ionicon-stroke-width: 50px; }
 
-.modal-avatar-box {
-  background: var(--bg-gradient-onyx);
-  width: max-content;
-  border-radius: 14px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-2);
+
+/* Specific styles for portfolio modal content */
+.portfolio-modal-content {
+    width: 100%; /* Ensure content takes full width of the modal */
+    text-align: center; /* Center text content */
 }
 
-.modal-img-wrapper > img { display: none; }
-
-.modal-title { margin-bottom: 4px; }
-
-.modal-content time {
-  font-size: var(--fs-6);
-  color: var(--light-gray-70);
-  font-weight: var(--fw-300);
-  margin-bottom: 10px;
+.portfolio-modal-img-box {
+    margin-bottom: 20px; /* Space below the image */
+    border-radius: 8px; /* Rounded corners for the image container */
+    overflow: hidden; /* Ensures image corners match container */
+    box-shadow: var(--shadow-2); /* Apply a subtle shadow to the image */
 }
 
-.modal-content p {
-  color: var(--light-gray);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-  line-height: 1.6;
+.portfolio-modal-img-box img {
+    max-width: 100%; /* Image is responsive within its container */
+    height: auto;
+    display: block;
+    border-radius: inherit; /* Inherit border-radius from parent */
 }
 
-
-/**
- * #clients 
- */
-
-.clients { margin-bottom: 15px; }
-
-.clients-list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  margin: 0 -15px;
-  padding: 25px;
-  padding-bottom: 25px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: inline mandatory;
-  scroll-padding-inline: 25px;
+.portfolio-modal-content .h3 {
+    margin-top: 15px; /* Space above title */
+    margin-bottom: 8px; /* Space below title */
+    color: var(--white-1); /* Brighter white for the title */
+    font-size: var(--fs-2); /* Uses your defined font size for h3 (24px at 580px+) */
 }
 
-.clients-item {
-  min-width: 50%;
-  scroll-snap-align: start;
+.portfolio-modal-category {
+    color: var(--emerald-green); /* Accent color for category */
+    font-size: var(--fs-6); /* Smaller font size for category */
+    text-transform: capitalize;
+    margin-bottom: 10px; /* Space below category */
 }
 
-.clients-item img {
-  width: 100%;
-  filter: grayscale(1);
-  transition: var(--transition-1);
+.portfolio-modal-caption {
+    color: var(--light-gray); /* Lighter gray for short caption */
+    font-size: var(--fs-5); /* Slightly larger font for caption */
+    line-height: 1.6;
+    margin-bottom: 15px; /* Space below caption */
 }
 
-.clients-item img:hover { filter: grayscale(0); }
-
-
-
-
-
-/*-----------------------------------*\
-  #RESUME
-\*-----------------------------------*/
-
-.article-title { margin-bottom: 30px; }
-
-
-/**
- * education and experience 
- */
-
-.timeline { margin-bottom: 30px; }
-
-.timeline .title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 25px;
+.portfolio-modal-description {
+    color: var(--light-gray); /* Lighter gray for detailed description */
+    font-size: var(--fs-6); /* Consistent with body text size */
+    line-height: 1.7;
+    margin-bottom: 10px; /* Space below description */
+    text-align: left; /* Align description text to the left */
+    max-width: 600px; /* Constrain description width for readability */
+    margin-inline: auto; /* Center description text block */
 }
 
-.timeline-list {
-  font-size: var(--fs-6);
-  margin-left: 45px;
+/* Responsive adjustments for portfolio modal */
+@media (min-width: 768px) {
+    .portfolio-modal {
+        padding: 30px; /* More padding on larger screens */
+        max-width: 800px; /* Max width for the modal itself */
+    }
+    .portfolio-modal-content .h3 {
+        font-size: var(--fs-1); /* Larger title on desktop */
+    }
 }
-
-.timeline-item { position: relative; }
-
-.timeline-item:not(:last-child) { margin-bottom: 20px; }
-
-.timeline-item-title {
-  font-size: var(--fs-6);
-  line-height: 1.3;
-  margin-bottom: 7px;
-}
-
-.timeline-list span {
-  color: var(--vegas-gold);
-  font-weight: var(--fw-400);
-  line-height: 1.6;
-}
-
-.timeline-item:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  top: -25px;
-  left: -30px;
-  width: 1px;
-  height: calc(100% + 50px);
-  background: var(--jet);
-}
-
-.timeline-item::after {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: -33px;
-  height: 6px;
-  width: 6px;
-  background: var(--text-gradient-yellow);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--jet);
-}
-
-.timeline-text {
-  color: var(--light-gray);
-  font-weight: var(--fw-300);
-  line-height: 1.6;
-}
-
-
-/**
- * skills 
- */
-
-.skills-title { margin-bottom: 20px; }
-
-.skills-list { padding: 20px; }
-
-
-.skills-item:not(:last-child) { margin-bottom: 15px; }
-
-.skill .title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 8px;
-}
-
-.skill .title-wrapper data {
-  color: var(--light-gray);
-  font-size: var(--fs-7);
-  font-weight: var(--fw-300);
-}
-
-.skill-progress-bg {
-  background: var(--jet);
-  width: 100%;
-  height: 8px;
-  border-radius: 10px;
-}
-
-.skill-progress-fill {
-  background: var(--text-gradient-yellow);
-  height: 100%;
-  border-radius: inherit;
-}
-
-
-
-
-
-/*-----------------------------------*\
-  #PORTFOLIO
-\*-----------------------------------*/
-
-.filter-list { display: none; }
-
-.filter-select-box {
-  position: relative;
-  margin-bottom: 25px;
-}
-
-.filter-select {
-  background: var(--eerie-black-2);
-  color: var(--light-gray);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid var(--jet);
-  border-radius: 14px;
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-}
-
-.filter-select.active .select-icon { transform: rotate(0.5turn); }
-
-.select-list {
-  background: var(--eerie-black-2);
-  position: absolute;
-  top: calc(100% + 6px);
-  width: 100%;
-  padding: 6px;
-  border: 1px solid var(--jet);
-  border-radius: 14px;
-  z-index: 2;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: 0.15s ease-in-out;
-}
-
-.filter-select.active + .select-list {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: all;
-}
-
-.select-item button {
-  background: var(--eerie-black-2);
-  color: var(--light-gray);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-  text-transform: capitalize;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 8px;
-}
-
-.select-item button:hover { --eerie-black-2: hsl(240, 2%, 20%); }
-
-.project-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-  margin-bottom: 10px;
-}
-
-.project-item { display: none; }
-
-.project-item.active {
-  display: block;
-  animation: scaleUp 0.25s ease forwards;
-}
-
-@keyframes scaleUp {
-  0% { transform: scale(0.5); }
-  100% { transform: scale(1); }
-}
-
-.project-item > a { width: 100%; }
-
-.project-img {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-.project-img::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: 1;
-  transition: var(--transition-1);
-}
-
-.project-item > a:hover .project-img::before { background: hsla(0, 0%, 0%, 0.5); }
-
-.project-item-icon-box {
-  --scale: 0.8;
-
-  background: var(--jet);
-  color: var(--orange-yellow-crayola);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(var(--scale));
-  font-size: 20px;
-  padding: 18px;
-  border-radius: 12px;
-  opacity: 0;
-  z-index: 1;
-  transition: var(--transition-1);
-}
-
-.project-item > a:hover .project-item-icon-box {
-  --scale: 1;
-  opacity: 1;
-}
-
-.project-item-icon-box ion-icon { --ionicon-stroke-width: 50px; }
-
-.project-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-1);
-}
-
-.project-item > a:hover img { transform: scale(1.1); }
-
-.project-title,
-.project-category { margin-left: 10px; }
-
-.project-title {
-  color: var(--white-2);
-  font-size: var(--fs-5);
-  font-weight: var(--fw-400);
-  text-transform: capitalize;
-  line-height: 1.3;
-}
-
-.project-category {
-  color: var(--light-gray-70);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-}
-
-
 
 
 
@@ -1071,7 +992,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: var(--transition-1);
+  transition: var(--transition-1); /* Ensure transition is here */
 }
 
 .blog-post-item > a:hover .blog-banner-box img { transform: scale(1.1); }
@@ -1105,7 +1026,7 @@ main {
   transition: var(--transition-1);
 }
 
-.blog-post-item > a:hover .blog-item-title { color: var(--orange-yellow-crayola); }
+.blog-post-item > a:hover .blog-item-title { color: var(--emerald-green); }
 
 .blog-text {
   color: var(--light-gray);
@@ -1114,8 +1035,135 @@ main {
   line-height: 1.6;
 }
 
+/* NEW BLOG ARTICLE UI STYLES - REFINED FOR MEDIUM-LIKE LAYOUT */
+
+.blog-article-content {
+    background: var(--eerie-black-2); /* Matches article background */
+    border: 1px solid var(--jet); /* Matches article border */
+    border-radius: 20px; /* Matches article border-radius */
+    padding: 30px; /* Increased padding for more breathing room */
+    box-shadow: var(--shadow-1); /* Matches article shadow */
+    margin-bottom: 20px; /* Space from other elements */
+}
+
+.blog-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--emerald-green);
+    font-size: var(--fs-5); /* Slightly larger font */
+    font-weight: var(--fw-500);
+    margin-bottom: 30px; /* More space below back button */
+    transition: color var(--transition-1);
+    background: transparent; /* Ensure no background */
+    border: none; /* Ensure no border */
+    padding: 5px 0; /* Minimal padding */
+}
+
+.blog-back-btn:hover {
+    color: var(--light-gray);
+}
+
+.blog-back-btn ion-icon {
+    --ionicon-stroke-width: 40px;
+    font-size: 20px; /* Slightly larger icon */
+}
+
+/* Styles for content parsed from Markdown */
+.article-content-wrapper {
+    color: var(--white-2); /* All text white, as requested */
+    line-height: 1.8; /* More generous line height for readability */
+    max-width: 700px; /* Constrain content width for better readability on large screens */
+    margin-left: auto; /* Center content within its wrapper */
+    margin-right: auto;
+}
+
+.article-content-wrapper h1,
+.article-content-wrapper h2,
+.article-content-wrapper h3 {
+    color: var(--white-1); /* Headings slightly brighter white */
+    text-transform: none; /* Remove capitalize, not common for article headings */
+    font-weight: var(--fw-600); /* Make headings bolder */
+    margin-top: 2em; /* More space above headings */
+    margin-bottom: 0.8em; /* Space below headings */
+    line-height: 1.3;
+}
+
+.article-content-wrapper h1 { font-size: var(--fs-1); } /* 24px default, adjusted by media queries */
+.article-content-wrapper h2 { font-size: var(--fs-2); } /* 18px default, adjusted by media queries */
+.article-content-wrapper h3 { font-size: var(--fs-4); } /* 16px default, adjusted by media queries */
 
 
+.article-content-wrapper p {
+    margin-bottom: 1.2em; /* More space between paragraphs */
+    font-size: var(--fs-6); /* Keep default size, adjusted by media queries */
+    font-weight: var(--fw-300);
+    color: var(--white-2); /* Ensure paragraph text is white */
+}
+
+.article-content-wrapper ul {
+    list-style: disc; /* Default disc bullets */
+    margin-bottom: 1.2em;
+    padding-left: 25px; /* Indent lists a bit more */
+    color: var(--white-2); /* Ensure list text is white */
+}
+
+.article-content-wrapper ul li {
+    margin-bottom: 0.6em; /* Space between list items */
+    font-size: var(--fs-6);
+    line-height: 1.7; /* Matches paragraph line height */
+}
+
+.article-content-wrapper strong {
+    color: var(--white-1); /* Make strong text stand out */
+    font-weight: var(--fw-600);
+}
+
+.article-content-wrapper em {
+    font-style: italic;
+    color: var(--light-gray); /* Maintain subtle contrast for emphasis */
+}
+
+.article-content-wrapper a {
+    color: var(--emerald-green); /* Highlight links */
+    text-decoration: underline; /* Add underline for clarity */
+    transition: color var(--transition-1);
+}
+
+.article-content-wrapper a:hover {
+    color: var(--light-gray);
+}
+
+
+/* Style for images embedded in Markdown (e.g., ![alt text](image.png)) */
+.article-content-wrapper img {
+    max-width: 100%; /* Ensure images are responsive */
+    height: auto;
+    border-radius: 8px; /* Slightly rounded corners for images */
+    margin: 2em auto; /* More vertical space, and center horizontally */
+    display: block; /* Ensure margin auto works for centering */
+    box-shadow: var(--shadow-2); /* Subtle shadow for images */
+}
+
+/* Adjust the styling for the article title from the post.json if needed */
+.blog-article-content .article-title {
+    margin-bottom: 20px; /* Space below the article title */
+}
+
+/* Style for the date and category meta info in article viewer */
+.blog-article-content .blog-meta {
+    margin-top: -10px; /* Adjust if needed to pull it closer to title */
+    margin-bottom: 30px; /* More space below meta info */
+    color: var(--light-gray-70);
+    font-size: var(--fs-6); /* Consistent with body text font size */
+}
+.blog-article-content .blog-meta .blog-category {
+    color: var(--emerald-green); /* Highlight category */
+    font-weight: var(--fw-500); /* Make category a bit bolder */
+}
+.blog-article-content .blog-meta .dot {
+    background: var(--light-gray-70);
+}
 
 
 /*-----------------------------------*\
@@ -1164,7 +1212,7 @@ main {
 
 .form-input::placeholder { font-weight: var(--fw-500); }
 
-.form-input:focus { border-color: var(--orange-yellow-crayola); }
+.form-input:focus { border-color: var(--emerald-green); }
 
 textarea.form-input {
   min-height: 100px;
@@ -1182,7 +1230,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   position: relative;
   width: 100%;
   background: var(--border-gradient-onyx);
-  color: var(--orange-yellow-crayola);
+  color: var(--emerald-green);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1197,20 +1245,18 @@ textarea.form-input::-webkit-resizer { display: none; }
 }
 
 .form-btn::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
-  background: var(--bg-gradient-jet);
   border-radius: inherit;
-  z-index: -1;
+  background: var(--bg-gradient-jet);
   transition: var(--transition-1);
+  z-index: -1;
 }
 
-.form-btn ion-icon { font-size: 16px; }
+.form-btn:hover { background: var(--bg-gradient-emerald-1); }
 
-.form-btn:hover { background: var(--bg-gradient-yellow-1); }
-
-.form-btn:hover::before { background: var(--bg-gradient-yellow-2); }
+.form-btn:hover::before { background: var(--bg-gradient-emerald-2); }
 
 .form-btn:disabled {
   opacity: 0.7;
@@ -1239,12 +1285,12 @@ textarea.form-input::-webkit-resizer { display: none; }
    * client
    */
 
-  .clients-item { min-width: calc(33.33% - 10px); }
+  /* Removed .clients-item rule */
 
 
 
   /**
-   * #PORTFOLIO, BLOG 
+   * #PORTFOLIO, BLOG
    */
 
   .project-img,
@@ -1274,7 +1320,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
     --fs-1: 32px;
     --fs-2: 24px;
-    --fs-3: 26px;
+    --fs-3: 17px; /* Original value for fs-3, which is 17px */
     --fs-4: 18px;
     --fs-6: 15px;
     --fs-7: 15px;
@@ -1289,8 +1335,9 @@ textarea.form-input::-webkit-resizer { display: none; }
    */
 
   .sidebar, article {
-    width: 520px;
-    margin-inline: auto;
+    width: auto; /* Changed to auto to allow shrinking */
+    max-width: 520px; /* Set max-width for this breakpoint */
+    margin-inline: auto; /* Center the element */
     padding: 30px;
   }
 
@@ -1338,8 +1385,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar-info { gap: 25px; }
 
   .avatar-box { border-radius: 30px; }
-
-  .avatar-box img { width: 120px; }
 
   .info-content .name { margin-bottom: 15px; }
 
@@ -1406,6 +1451,26 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .service-content-box { text-align: left; }
 
+  /* Tech Stack Section */
+  .tech-stack {
+    margin-top: 40px; /* Adjusted spacing for larger screens */
+    margin-bottom: 40px;
+  }
+  .tech-stack-title {
+    margin-bottom: 25px;
+  }
+  .logo-carousel-container {
+    padding: 25px 0;
+  }
+  .logo-item {
+    padding: 0 30px; /* More space between logos */
+  }
+  .logo-item img {
+    width: 90px; /* Slightly larger logos */
+    height: 90px;
+  }
+
+
   /* testimonials */
 
   .testimonials-title { margin-bottom: 25px; }
@@ -1471,16 +1536,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     width: 35px;
   }
 
-  /* clients */
-
-  .clients-list {
-    gap: 50px;
-    margin: 0 -30px;
-    padding: 45px;
-    scroll-padding-inline: 45px;
-  }
-
-  .clients-item { min-width: calc(33.33% - 35px); }
+  /* Removed clients section CSS from here */
 
 
 
@@ -1488,14 +1544,43 @@ textarea.form-input::-webkit-resizer { display: none; }
    * #RESUME
    */
 
-  .timeline-list { margin-left: 65px; }
+  .timeline-list {
+    margin-left: 45px;
+  }
 
-  .timeline-item:not(:last-child)::before { left: -40px; }
+  /* Ensure text color for all elements within timeline-list */
+  .timeline-list p,
+  .timeline-list ul,
+  .timeline-list li,
+  .timeline-list strong,
+  .timeline-list span {
+    color: var(--white-2); /* Ensured consistent color */
+  }
+
+  .timeline-list ul {
+    list-style: disc; /* Ensure bullets for unordered lists */
+    padding-left: 20px; /* Add indentation for list items */
+    margin-top: 5px; /* Small top margin for lists */
+    margin-bottom: 10px; /* More space below lists */
+  }
+
+  .timeline-list ul li {
+    margin-bottom: 5px; /* Space between list items */
+  }
+
+  .timeline-list p {
+    margin-top: 5px; /* Consistent spacing for paragraphs */
+    margin-bottom: 10px; /* More space below paragraphs */
+  }
+
+  .timeline-item:not(:last-child)::before {
+    left: -30px;
+    height: calc(100% + 50px);
+  }
 
   .timeline-item::after {
-    height: 8px;
-    width: 8px;
-    left: -43px;
+    left: -33px;
+    top: 15px; /* Adjusted to align better with content, test with your actual content */
   }
 
   .skills-item:not(:last-child) { margin-bottom: 25px; }
@@ -1555,7 +1640,10 @@ textarea.form-input::-webkit-resizer { display: none; }
    * REUSED STYLE
    */
 
-  .sidebar, article { width: 700px; }
+  .sidebar, article {
+    width: auto; /* Changed to auto to allow shrinking */
+    max-width: 700px; /* Set max-width for this breakpoint */
+  }
 
   .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
 
@@ -1601,10 +1689,10 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .article-title { padding-bottom: 20px; }
 
-  .filter-select-box { display: none; }
+  .filter-select-box { display: none; } /* Hide dropdown on desktop */
 
   .filter-list {
-    display: flex;
+    display: flex; /* Show filter buttons on desktop */
     justify-content: flex-start;
     align-items: center;
     gap: 25px;
@@ -1620,12 +1708,74 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .filter-item button:hover { color: var(--light-gray-70); }
 
-  .filter-item button.active { color: var(--orange-yellow-crayola); }
+  .filter-item button.active { color: var(--emerald-green); }
 
   /* portfolio and blog grid */
 
-  .project-list, .blog-posts-list { grid-template-columns: 1fr 1fr; }
+  .project-list {
+    display: grid; /* Explicitly set display grid */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adaptive columns */
+    gap: 30px; /* Keep consistent gap */
+    padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
+  }
+  .blog-posts-list {
+    display: grid; /* Explicitly set display grid */
+    grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+    gap: 30px; /* Keep consistent gap */
+  }
 
+  .project-item {
+    min-width: 0; /* Allow flex/grid items to shrink below their content size */
+    width: auto; /* Allow item to size based on grid */
+    line-height: normal; /* Allow normal line height for text */
+    /* Remove overflow: visible here, let .project-img handle clipping */
+  }
+  .project-img {
+    position: relative; /* Added for absolute positioning of the icon */
+    height: 200px; /* Maintain fixed height for consistency */
+    overflow: hidden; /* Ensure images are clipped by this container */
+    border-radius: 12px; /* Ensure image corners are rounded */
+  }
+
+  .project-img img { /* Target img within project-img for precise control */
+    width: 100%; /* Ensure image fills its container */
+    height: 100%;
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    display: block; /* Remove any extra spacing */
+    /* Removed vertical-align: top; as display: block handles vertical positioning */
+  }
+
+  /* Corrected eye icon visibility and z-index */
+  .project-item-icon-box {
+    position: absolute; /* Ensure it's positioned for z-index to work */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the icon */
+    background: hsla(0, 0%, 0%, 0.6); /* Add a subtle background to make it stand out */
+    border-radius: 50%; /* Make it circular */
+    padding: 10px; /* Add some padding around the icon */
+    z-index: 10; /* A higher z-index to ensure it's on top of the image and content */
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Not clickable when hidden */
+    transition: opacity 0.25s ease-in-out; /* Smooth transition */
+  }
+
+  .project-item-icon-box ion-icon { /* Explicitly set icon color to white */
+      color: var(--white-1);
+  }
+
+  .project-item > a:hover .project-item-icon-box {
+    opacity: 1; /* Visible on hover */
+    pointer-events: auto; /* Clickable on hover */
+  }
+
+  /* Text color for project titles and categories */
+  .project-title {
+    color: var(--white-2); /* Set to white */
+  }
+  .project-category {
+    color: var(--light-gray-70); /* Set to light gray */
+  }
 
 
   /**
@@ -1638,7 +1788,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     width: max-content;
     margin-left: auto;
   }
-  
+
 }
 
 
@@ -1674,21 +1824,23 @@ textarea.form-input::-webkit-resizer { display: none; }
    */
 
   .sidebar, article {
-    width: 950px;
+    width: auto; /* Changed to auto to allow shrinking */
+    max-width: 950px; /* Set max-width for this breakpoint */
     box-shadow: var(--shadow-5);
   }
 
 
 
   /**
-   * MAIN 
+   * MAIN
    */
 
   main { margin-bottom: 60px; }
 
   .main-content {
     position: relative;
-    width: max-content;
+    /* Corrected width from max-content to a fixed percentage */
+    width: 75%; /* Changed from max-content */
     margin: auto;
   }
 
@@ -1704,7 +1856,8 @@ textarea.form-input::-webkit-resizer { display: none; }
     top: 0;
     left: auto;
     right: 0;
-    width: max-content;
+    /* Corrected width from max-content to 100% to fit parent */
+    width: auto; /* Changed to auto for better responsiveness */
     border-radius: 0 20px;
     padding: 0 20px;
     box-shadow: none;
@@ -1713,6 +1866,8 @@ textarea.form-input::-webkit-resizer { display: none; }
   .navbar-list {
     gap: 30px;
     padding: 0 20px;
+    /* Added alignment for larger screens */
+    justify-content: flex-end;
   }
 
   .navbar-link { font-weight: var(--fw-500); }
@@ -1730,21 +1885,42 @@ textarea.form-input::-webkit-resizer { display: none; }
     gap: 20px 25px;
   }
 
+  /* Tech Stack Section */
+  .tech-stack {
+    margin-top: 50px; /* Further adjusted spacing for larger screens */
+    margin-bottom: 50px;
+  }
+  .tech-stack-title {
+    margin-bottom: 30px;
+  }
+  .logo-carousel-container {
+    padding: 30px 0;
+  }
+  .logo-item {
+    padding: 0 40px; /* More space between logos */
+  }
+  .logo-item img {
+    width: 100px; /* Larger logos */
+    height: 100px;
+  }
+
   /* testimonials */
 
   .testimonials-item { min-width: calc(50% - 15px); }
 
-  /* clients */
-
-  .clients-item { min-width: calc(25% - 38px); }
-
+  /* Removed clients section CSS from here */
 
 
   /**
    * PORTFOLIO
    */
 
-  .project-list { grid-template-columns: repeat(3, 1fr); }
+  .project-list {
+    display: grid; /* Explicitly set display grid */
+    grid-template-columns: repeat(3, 1fr); /* Three columns on larger screens */
+    gap: 30px; /* Keep consistent gap */
+    padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
+  }
 
 
 
@@ -1792,7 +1968,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * REUSED STYLE
    */
 
-  .sidebar, article { width: auto; }
+  .sidebar, article { width: auto; } /* Let main grid handle width */
 
   article { min-height: 100%; }
 
@@ -1805,7 +1981,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   main {
     max-width: 1200px;
     margin-inline: auto;
-    display: flex;
+    display: flex; /* Use flex for main layout */
     justify-content: center;
     align-items: stretch;
     gap: 25px;

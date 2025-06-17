@@ -1,0 +1,83 @@
+[
+  {
+    "id": "project-finance",
+    "image": "./assets/images/project-1.jpg",
+    "alt": "Finance dashboard concept",
+    "title": "Finance",
+    "category": "Web development",
+    "caption": "A modern dashboard design for financial analytics.",
+    "long_description": "This project involved creating an intuitive and visually appealing dashboard for financial data visualization. Focus was on clear data representation and user experience for complex information."
+  },
+  {
+    "id": "project-orizon",
+    "image": "./assets/images/project-2.png",
+    "alt": "Orizon landing page",
+    "title": "Orizon",
+    "category": "Web development",
+    "caption": "Landing page design for a creative agency.",
+    "long_description": "Designed and developed a responsive landing page for a fictional creative agency, emphasizing a clean layout and engaging visuals."
+  },
+  {
+    "id": "project-fundo",
+    "image": "./assets/images/project-3.jpg",
+    "alt": "Fundo app design",
+    "title": "Fundo",
+    "category": "Web design",
+    "caption": "UI/UX design for a mobile fundraising application.",
+    "long_description": "Full UI/UX design process for a mobile application aimed at simplifying fundraising for various causes. Included user flows, wireframes, and high-fidelity mockups."
+  },
+  {
+    "id": "project-brawlhalla",
+    "image": "./assets/images/project-4.png",
+    "alt": "Brawlhalla character selection screen",
+    "title": "Brawlhalla",
+    "category": "Applications",
+    "caption": "Fan-art inspired character selection interface.",
+    "long_description": "A personal project exploring UI design within a gaming context, specifically a redesign concept for a character selection screen in the game Brawlhalla."
+  },
+  {
+    "id": "project-dsm",
+    "image": "./assets/images/project-5.png",
+    "alt": "DSM branding mockups",
+    "title": "DSM.",
+    "category": "Web design",
+    "caption": "Branding and web design for a digital marketing firm.",
+    "long_description": "Comprehensive branding exercise including logo, color palette, and a minimalist web design for a digital strategy and marketing company."
+  },
+  {
+    "id": "project-metaspark",
+    "image": "./assets/images/project-6.png",
+    "alt": "MetaSpark website design",
+    "title": "MetaSpark",
+    "category": "Web design",
+    "caption": "Interactive website concept for a tech startup.",
+    "long_description": "Developed an interactive web prototype for MetaSpark, a conceptual tech startup, focusing on engaging animations and a user-friendly information architecture."
+  },
+  {
+    "id": "project-summary",
+    "image": "./assets/images/project-7.png",
+    "alt": "Summary application development",
+    "title": "Summary",
+    "category": "Web development",
+    "caption": "Web application for summarizing long articles.",
+    "long_description": "A web application built to provide quick summaries of web articles using natural language processing techniques. Involved front-end development and API integration."
+  },
+  {
+    "id": "project-taskmanager",
+    "image": "./assets/images/project-8.jpg",
+    "alt": "Task Manager mobile app",
+    "title": "Task Manager",
+    "category": "Applications",
+    "caption": "Productivity mobile application with task tracking.",
+    "long_description": "Designed and developed a cross-platform mobile application for personal task management, including features like task categorization, reminders, and progress tracking."
+  },
+  {
+    "id": "project-arrival",
+    "image": "./assets/images/project-9.png",
+    "alt": "Arrival web design concept",
+    "title": "Arrival",
+    "category": "Web development",
+    "caption": "Experimental web design focusing on scroll-based animations.",
+    "long_description": "An experimental project focusing on creating a visually rich web experience with scroll-triggered animations and dynamic content loading, inspired by modern interactive websites."
+  }
+]
