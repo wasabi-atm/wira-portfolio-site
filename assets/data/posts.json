@@ -1,11 +1,11 @@
 [
   {
-    "file": "2022-g20-volunteer-leader.html",
-    "thumbnail": "https://baytarrahmah.org/wp-content/uploads/2022/09/01_R20-Official-Banner_722x435.jpg",
-    "title": "The Story of Being 2022 G20 Volunteer Leader",
-    "category": "Leadership",
-    "date": "2022-11-16",
-    "preview": "How I led a team of 30 volunteers for the G20's Religion of Twenty (R20) sub-event, managing logistics, budget, and cross-functional coordination under high pressure."
+    "file": "Exploring-SwiftUI.html",
+    "thumbnail": "https://cdn-images-1.medium.com/max/800/1*xUbME_F37FsVUQWX-guv5A.png",
+    "title": "Exploring SwiftUI, This is How I Did it as a Designer Learning to Code",
+    "category": "Design",
+    "date": "2025-06-18",
+    "preview": "Inspired by Bill Gates's insights, this article explores why coding skills are becoming essential for designers. It details my personal journey learning SwiftUI and native iOS development, highlighting how understanding code empowers designers to create more functional and interactive experiences, and why others shouldn't fear starting their own coding journey."
   },
   {
     "file": "The-Uncomfortable-Truth--Why-Designers-Who-Ignore-Code-Will-Be-Left-Behind-After-2025.html",
@@ -22,5 +22,13 @@
     "category": "Design",
     "date": "2025-03-28",
     "preview": "Carma - Driving Mindfulness is an app designed to help users manage stress and be more mindful during traffic, delivering calming sounds and audio prompts without screen distraction. This solo project involved user research, prototyping, and iOS development."
+  },
+  {
+    "file": "2022-g20-volunteer-leader.html",
+    "thumbnail": "https://baytarrahmah.org/wp-content/uploads/2022/09/01_R20-Official-Banner_722x435.jpg",
+    "title": "The Story of Being 2022 G20 Volunteer Leader",
+    "category": "Leadership",
+    "date": "2022-11-16",
+    "preview": "How I led a team of 30 volunteers for the G20's Religion of Twenty (R20) sub-event, managing logistics, budget, and cross-functional coordination under high pressure."
   }
 ]

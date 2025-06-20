@@ -213,7 +213,7 @@ article {
 }
 
 .icon-box::before {
-  content: "";
+  content: "",;
   position: absolute;
   inset: 1px;
   background: var(--eerie-black-1);
@@ -381,10 +381,17 @@ article[data-spotlight-card] > section {
 \*-----------------------------------*/
 
 main {
-  margin-inline: 12px; /* Changed from 15px 12px to fluid side margins */
+  /* Adjusted margin-inline for better overall padding */
+  margin-inline: auto;
   margin-top: 15px;
   margin-bottom: 75px;
   min-width: 259px;
+  /* Added padding for consistent spacing on all sides for the whole main content area */
+  padding: 15px;
+  max-width: 1200px; /* Constrain max-width for overall layout */
+  display: flex; /* Use flex for main layout */
+  flex-direction: column; /* Stack sidebar and main-content vertically by default */
+  gap: 25px; /* Gap between sidebar and main-content */
 }
 
 
@@ -397,12 +404,17 @@ main {
 
 .sidebar {
   margin-bottom: 15px;
+  /* Initial collapsed height, adjusted slightly for mobile */
   max-height: 112px;
-  overflow: hidden;
-  transition: var(--transition-2);
+  overflow: hidden; /* Hide content beyond max-height */
+  transition: max-height var(--transition-2); /* Animate max-height */
 }
 
-.sidebar.active { max-height: 405px; }
+.sidebar.active {
+  /* Set max-height to a very large value to ensure content is never cut off, allows smooth transition */
+  max-height: 1000px; /* Increased to ensure all content fits */
+  overflow: visible; /* Allow content to be visible when expanded */
+}
 
 .sidebar-info {
   position: relative;
@@ -426,16 +438,29 @@ main {
 
   /* Ensure no default text-shadow or other conflicting text styles */
   text-shadow: none;
-  text-transform: none; /* If you want to remove any existing capitalize */
+  /* Removed text-transform: capitalize for the name to respect original casing from HTML */
+  text-transform: none;
 
   /* Optional: Adjust font weight or size if needed for the effect */
   font-weight: var(--fw-600); /* Make it bolder to show gradient more */
   font-size: var(--fs-1); /* Adjust size if needed, using your variable */
+  white-space: normal; /* Allow name to wrap if too long */
 }
 
 .avatar-box {
   background: var(--bg-gradient-onyx);
   border-radius: 20px;
+  /* Enforce 1:1 aspect ratio */
+  width: 80px; /* Fixed width */
+  height: 80px; /* Fixed height for 1:1 ratio */
+  flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.avatar-box img {
+  width: 100%; /* Make image fill the avatar-box */
+  height: 100%; /* Make image fill the avatar-box */
+  object-fit: cover; /* Crop image to fit while maintaining aspect ratio */
+  border-radius: inherit; /* Inherit border-radius from parent (.avatar-box) */
 }
 
 .info-content .name {
@@ -491,7 +516,7 @@ main {
 .sidebar-info_more {
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-2);
+  transition: opacity var(--transition-2), visibility var(--transition-2); /* Animate opacity and visibility */
 }
 
 .sidebar.active .sidebar-info_more {
@@ -557,7 +582,7 @@ main {
 \*-----------------------------------*/
 
 .navbar {
-  position: fixed;
+  position: fixed; /* Keep fixed position for mobile */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -824,7 +849,7 @@ main {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Ensure it covers the full viewport */
+  height: 100%; /* Changed from 100vh to 100% to ensure it covers the fixed parent */
   background-color: hsl(0, 0%, 5%); /* Explicitly set background-color for overlay */
   opacity: 0; /* Invisible by default */
   visibility: hidden; /* Hidden by default */
@@ -889,6 +914,44 @@ main {
 
 .modal-close-btn ion-icon { --ionicon-stroke-width: 50px; }
 
+/* Testimonials Modal Specific Styles for Content Formatting */
+.testimonials-modal .modal-content {
+  width: 100%; /* Ensure content takes full width */
+  text-align: center; /* Center align all content within the modal */
+  padding-top: 20px; /* Add some padding from the image/quote icon above */
+}
+
+.testimonials-modal .modal-content .h3.modal-title {
+  margin-top: 0; /* Adjust or remove top margin if already covered by padding-top on parent */
+  margin-bottom: 8px; /* Space below title */
+  line-height: 1.3;
+}
+
+.testimonials-modal .modal-content time {
+  display: block; /* Ensure time is on its own line */
+  color: var(--light-gray-70); /* Lighter color for date */
+  font-size: var(--fs-7); /* Smaller font size for date */
+  margin-bottom: 15px; /* Space below date */
+}
+
+.testimonials-modal .modal-content [data-modal-text] {
+  width: 100%; /* Ensure text container takes full width */
+  text-align: left; /* Align text to the left */
+  /* Remove any conflicting display properties or line-clamp that might be causing cutoff */
+  display: block; /* Ensure it behaves as a block element */
+  margin-top: 10px; /* Add some space above the text content */
+}
+
+.testimonials-modal .modal-content [data-modal-text] p {
+  color: var(--light-gray); /* Text color */
+  font-size: var(--fs-6); /* Font size */
+  font-weight: var(--fw-300);
+  line-height: 1.6;
+  white-space: normal; /* Ensure text wraps naturally */
+  overflow: visible; /* Ensure content is not hidden */
+  text-overflow: clip; /* Prevent ellipsis if overflow is not hidden */
+}
+
 
 /* Portfolio Detail Content - New in-page display */
 .portfolio-detail-content {
@@ -920,7 +983,7 @@ main {
 
 .portfolio-detail-content .portfolio-modal-img-box img {
     width: 100%; /* Image is responsive within its container */
-    height: 100%; /* Image fills the fixed height container */
+    height: 100%;
     object-fit: cover; /* Cover the area, cropping if necessary */
     display: block;
     border-radius: inherit; /* Inherit border-radius from parent */
@@ -1341,7 +1404,9 @@ textarea.form-input::-webkit-resizer { display: none; }
     /* Ensure sidebar and article are full width with padding on very small screens */
     .sidebar, article {
         max-width: 100%; /* Ensure full width */
-        margin-inline: 12px; /* Keep side margins */
+        /* Removed margin-inline for mobile, rely on main's padding for overall spacing */
+        margin-inline: 0;
+        padding: 15px; /* Keep consistent padding */
     }
 
     /* Adjust modal padding to prevent being too small */
@@ -1352,16 +1417,170 @@ textarea.form-input::-webkit-resizer { display: none; }
     }
 
     /* Resume list styling for very small screens */
-    .timeline-list ul {
+    .timeline-list-details { /* Use the new class here */
       list-style: disc; /* Re-enable bullets */
       padding-left: 20px; /* Adjust indentation */
+      margin-top: 10px; /* Added spacing from previous element */
+      margin-bottom: 15px; /* Added spacing to next element */
+      line-height: 1.6; /* Ensure good line height */
+      color: var(--white-2); /* Ensure consistent color */
+    }
+    .timeline-list-details li {
+      margin-bottom: 5px; /* Space between list items */
+    }
+
+    .timeline-list p.timeline-text { /* Target paragraphs within timeline lists */
+      margin-top: 10px; /* Added spacing from previous element */
+      margin-bottom: 15px; /* Added spacing to next element */
+      line-height: 1.6; /* Ensure good line height */
+      color: var(--white-2); /* Ensure consistent color */
     }
 
     /**
      * #PORTFOLIO, BLOG
      */
+    /* Ensure images have auto height on mobile for responsiveness */
     .project-img,
     .blog-banner-box { height: auto; }
+
+    /* Force portfolio items to a single column on small screens */
+    .project-list {
+        display: grid; /* Explicitly set display grid */
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 20px; /* Consistent gap between items */
+        padding-bottom: 20px; /* Ensure space at the bottom of the list */
+        width: 100%; /* Explicitly ensure full width */
+    }
+
+    .project-item > a {
+        /* This makes the whole clickable area the card */
+        display: block; /* Important for padding and width to apply */
+        height: 100%; /* Ensure cards fill their grid cell height */
+        position: relative; /* If needed for absolute children, keep */
+        background: var(--border-gradient-onyx); /* Card background */
+        box-shadow: var(--shadow-4); /* Card shadow */
+        border-radius: 16px; /* Rounded corners */
+        z-index: 1;
+        /* Padding for content inside the project item, adjusting top padding to be similar to blog-content */
+        padding: 0 0 15px 0; /* Remove top padding from here, apply to specific elements if needed */
+    }
+
+    .project-item > a::before { /* Inner background for the card */
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: inherit;
+        background: var(--eerie-black-1);
+        z-index: -1;
+    }
+
+    /* Style the image container to maintain aspect ratio and overflow */
+    .project-img {
+        width: 100%;
+        /* height: auto;  Already set globally for small screens, keeping for clarity */
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .project-img img {
+        width: 100%;
+        /* height: auto; Already set globally for small screens, keeping for clarity */
+        object-fit: cover;
+    }
+
+
+    /* Text elements inside project item for consistent padding and color */
+    .project-item .project-title {
+        padding-left: 15px; /* Consistent left padding for text */
+        padding-right: 15px; /* Consistent right padding for text */
+        text-align: left; /* Ensure text aligns left within the card */
+        color: var(--white-2); /* Set title text to white */
+        margin-top: 15px; /* Space between image and title, adjusted from 10px */
+        margin-bottom: 5px; /* Space below title */
+        line-height: 1.3;
+    }
+
+    .project-item .project-category {
+        padding-left: 15px; /* Consistent left padding for text */
+        padding-right: 15px; /* Consistent right padding for text */
+        text-align: left; /* Ensure text aligns left within the card */
+        color: var(--light-gray-70); /* Set category text to light gray */
+        margin-bottom: 0; /* Remove extra margin if any */
+    }
+
+    /* Hide eye icon on mobile */
+    .project-item-icon-box {
+        display: none;
+    }
+
+
+    /* Adjust filter visibility for mobile */
+    .filter-list { /* Desktop filter buttons */
+        display: none;
+    }
+
+    .filter-select-box { /* Mobile select dropdown */
+        display: block; /* Show on mobile */
+        width: 100%;
+        margin-bottom: 20px; /* Space below the dropdown */
+        position: relative;
+        z-index: 2; /* Ensure it's above project list if needed */
+        background: var(--eerie-black-1);
+        border: 1px solid var(--jet);
+        border-radius: 14px;
+        padding: 13px 20px;
+        color: var(--white-2); /* Set dropdown text to white */
+        cursor: pointer;
+        font-size: var(--fs-6);
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .filter-select-box .select-icon ion-icon {
+        color: var(--white-2); /* Set dropdown icon to white */
+        font-size: 18px;
+    }
+
+    .filter-select-box .select-value {
+        color: var(--white-2); /* Explicitly set selected value text to white */
+        text-transform: capitalize;
+    }
+
+    .select-list {
+        position: absolute;
+        top: calc(100% + 10px); /* Position below the select box */
+        left: 0;
+        width: 100%;
+        background: var(--eerie-black-1);
+        border: 1px solid var(--jet);
+        border-radius: 14px;
+        padding: 10px 0;
+        box-shadow: var(--shadow-2);
+        z-index: 10; /* Ensure it's on top of other content */
+        display: none; /* Hidden by default */
+    }
+
+    .filter-select-box.active + .select-list {
+        display: block; /* Show when select box is active */
+    }
+
+    .select-list .select-item button {
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+        color: var(--white-2); /* Set list item text to white */
+        font-size: var(--fs-6);
+        text-align: left;
+        transition: background-color 0.2s ease;
+    }
+
+    .select-list .select-item button:hover,
+    .select-list .select-item button:focus {
+        background-color: var(--jet);
+        color: var(--emerald-green);
+    }
 }
 
 
@@ -1417,23 +1636,38 @@ textarea.form-input::-webkit-resizer { display: none; }
   main {
     margin-top: 60px;
     margin-bottom: 100px;
+    padding: 20px; /* Increase main padding for larger screens */
   }
 
   /**
    * #SIDEBAR
    */
   .sidebar {
-    max-height: 180px;
+    max-height: 180px; /* Adjusted initial height for 580px+ */
     margin-bottom: 30px;
   }
 
-  .sidebar.active { max-height: 584px; }
+  .sidebar.active { max-height: 600px; } /* Increased for enough space on tablets */
 
   .sidebar-info { gap: 25px; }
 
-  .avatar-box { border-radius: 30px; }
+  .avatar-box {
+    border-radius: 30px;
+    width: 100px; /* Adjust width for 580px+ */
+    height: 100px; /* Adjust height for 580px+ */
+  }
+  .avatar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
 
-  .info-content .name { margin-bottom: 15px; }
+
+  .info-content .name {
+    margin-bottom: 15px;
+    white-space: normal; /* Allow text to wrap naturally */
+  }
 
   .info-content .title { padding: 5px 18px; }
 
@@ -1577,29 +1811,31 @@ textarea.form-input::-webkit-resizer { display: none; }
     margin-left: 45px;
   }
 
-  /* Ensure text color for all elements within timeline-list */
+  /* Ensured text color for all elements within timeline-list */
   .timeline-list p,
-  .timeline-list ul,
-  .timeline-list li,
   .timeline-list strong,
   .timeline-list span {
     color: var(--white-2); /* Ensured consistent color */
   }
 
-  .timeline-list ul {
+  /* New style for lists within timeline items */
+  .timeline-list-details { /* New class added to HTML */
     list-style: disc; /* Re-enable bullets */
     padding-left: 20px; /* Add indentation for list items */
     margin-top: 5px; /* Small top margin for lists */
     margin-bottom: 10px; /* More space below lists */
+    color: var(--white-2); /* Ensure consistent color for list text */
   }
 
-  .timeline-list ul li {
+  .timeline-list-details li {
     margin-bottom: 5px; /* Space between list items */
   }
 
-  .timeline-list p {
+  .timeline-list p.timeline-text { /* Target paragraphs within timeline lists */
     margin-top: 5px; /* Consistent spacing for paragraphs */
     margin-bottom: 10px; /* More space below paragraphs */
+    line-height: 1.6; /* Ensure good line height */
+    color: var(--white-2); /* Ensure consistent color */
   }
 
   .timeline-item:not(:last-child)::before {
@@ -1620,6 +1856,14 @@ textarea.form-input::-webkit-resizer { display: none; }
   .project-img, .blog-banner-box { border-radius: 16px; }
 
   .blog-content { padding: 25px; }
+
+  /* Hide mobile filter on screens larger than 580px */
+  .filter-select-box {
+      display: none;
+  }
+  .filter-list { /* Show desktop filter buttons */
+      display: flex; /* Assuming it was hidden by default on mobile */
+  }
 
   /**
    * #CONTACT
@@ -1653,7 +1897,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     text-transform: capitalize;
     box-shadow: var(--shadow-3);
     z-index: 1;
-    transition: var(--transition-1);
   }
 
   .form-btn::before {
@@ -1713,11 +1956,33 @@ textarea.form-input::-webkit-resizer { display: none; }
    */
   /* testimonials modal */
   .testimonials-modal {
-    gap: 35px;
-    max-width: 680px;
+    padding: 30px; /* Increased internal padding for larger modals */
+    border-radius: 20px;
+    max-width: 680px; /* Adjusted max-width for 768px+ */
+    display: flex; /* Use flexbox for better content alignment */
+    flex-direction: row; /* Layout image/quote and content side-by-side */
+    align-items: flex-start; /* Align items to the top */
+    gap: 35px; /* Space between image/quote and content */
   }
 
-  .modal-avatar-box img { width: 80px; }
+  .testimonials-modal .modal-img-wrapper {
+      flex-shrink: 0; /* Prevent the image wrapper from shrinking */
+      display: flex;
+      flex-direction: column; /* Stack avatar and quote vertically */
+      align-items: center; /* Center them horizontally */
+      margin-top: 0; /* Reset any previous margins */
+  }
+
+  .testimonials-modal .modal-avatar-box img { width: 80px; }
+
+  .testimonials-modal .modal-img-wrapper > img { /* Target quote icon */
+      margin-top: 10px; /* Space between avatar and quote icon */
+  }
+
+  .testimonials-modal .modal-content {
+      text-align: left; /* Align content text left for larger screens */
+      padding-top: 0; /* Reset padding-top if flexbox handles spacing */
+  }
 
   /**
    * PORTFOLIO
@@ -1778,6 +2043,12 @@ textarea.form-input::-webkit-resizer { display: none; }
     height: 100%;
     object-fit: cover; /* Cover the area, cropping if necessary */
     display: block; /* Remove any extra spacing */
+    transition: var(--transition-1); /* Smooth transition for zoom effect */
+  }
+
+  /* Hover effect for project image zoom */
+  .project-item > a:hover .project-img img {
+    transform: scale(1.1);
   }
 
   /* Corrected eye icon visibility and z-index */
@@ -1807,9 +2078,15 @@ textarea.form-input::-webkit-resizer { display: none; }
   /* Text color for project titles and categories */
   .project-title {
     color: var(--white-2); /* Set to white */
+    transition: var(--transition-1); /* Add transition for title color change */
   }
   .project-category {
     color: var(--light-gray-70); /* Set to light gray */
+  }
+
+  /* Hover effect for project title color */
+  .project-item > a:hover .project-title {
+    color: var(--emerald-green);
   }
 
   /**
@@ -1851,7 +2128,17 @@ textarea.form-input::-webkit-resizer { display: none; }
   /**
    * MAIN
    */
-  main { margin-bottom: 60px; }
+  main {
+    margin-bottom: 60px;
+    display: flex; /* Use flex for main layout */
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    max-width: 1200px; /* Adjusted from 1250px to provide some margin at the very large screens */
+    margin-inline: auto; /* Center the entire main content block */
+    padding: 30px; /* Increase main padding for desktop */
+    flex-direction: row; /* Layout sidebar and main-content side-by-side on desktop */
+  }
 
   .main-content {
     position: relative;
@@ -1971,6 +2258,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     justify-content: center;
     align-items: stretch;
     gap: 25px;
+    padding: 30px; /* Keep consistent padding on larger screens */
   }
 
   .main-content {
@@ -1985,8 +2273,8 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar {
     position: sticky;
     top: 60px;
-    max-height: max-content;
-    height: 100%;
+    max-height: max-content; /* Allow sidebar to take full height on large screens */
+    height: auto; /* Ensure it's not fixed height */
     margin-bottom: 0;
     padding-top: 60px;
     z-index: 1;
@@ -1994,10 +2282,13 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .sidebar-info { flex-direction: column; }
 
-  .avatar-box img { width: 150px; }
+  .avatar-box {
+    width: 150px; /* Adjust width for 1250px+ */
+    height: 150px; /* Adjust height for 1250px+ */
+  }
 
   .info-content .name {
-    white-space: nowrap;
+    white-space: nowrap; /* Re-enable nowrap for name on very wide screens if desired */
     text-align: center;
   }
 

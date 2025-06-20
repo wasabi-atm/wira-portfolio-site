@@ -45,45 +45,57 @@ modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
 
 
-// custom select variables
+// custom select variables for Portfolio filters
 const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
+const selectList = document.querySelector("[data-select-list]"); // Targeted the new data attribute
 const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+const filterBtn = document.querySelectorAll("[data-filter-btn]"); // Desktop filter buttons
 
 select.addEventListener("click", function () { elementToggleFunc(this); });
 
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    // filterFunc(selectedValue); // This will be handled by the new portfolio filter logic
-  });
+// Function to populate the mobile filter dropdown
+const populateMobileFilterDropdown = function () {
+    selectList.innerHTML = ''; // Clear existing items
+
+    // Get categories from the desktop filter buttons
+    filterBtn.forEach(button => {
+        const category = button.dataset.category;
+        const text = button.innerText;
+
+        const listItem = document.createElement('li');
+        listItem.classList.add('select-item');
+        listItem.innerHTML = `<button data-select-item data-category="${category}">${text}</button>`;
+        selectList.appendChild(listItem);
+    });
+
+    // Add event listeners to the newly created select items
+    const mobileSelectItems = selectList.querySelectorAll('[data-select-item]');
+    mobileSelectItems.forEach(item => {
+        item.addEventListener("click", function () {
+            let selectedValue = this.dataset.category; // Use dataset.category directly
+            selectValue.innerText = this.innerText;
+            filterFunc(selectedValue); // Filter based on the selected category
+            elementToggleFunc(select); // Close the dropdown
+        });
+    });
 }
 
-// filter variables - Filter logic will be updated to use the allPortfolioItems array
-const filterItems = document.querySelectorAll("[data-filter-item]");
 
 const filterFunc = function (selectedValue) {
-  // This function will be updated to filter allPortfolioItems
-  // Instead of directly toggling class on filterItems, we'll re-render based on data
-  if (allPortfolioItems.length > 0) { // Ensure data is loaded
+  if (allPortfolioItems.length > 0) {
     const filtered = selectedValue === "all"
         ? allPortfolioItems
-        : allPortfolioItems.filter(item => item.category.toLowerCase() === selectedValue);
+        : allPortfolioItems.filter(item => item.category.toLowerCase() === selectedValue.toLowerCase()); // Ensure case-insensitive match
     renderPortfolioItems(filtered);
   }
 }
 
 // add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[0];
+let lastClickedBtn = filterBtn[0]; // Initialize with the 'All' button
 
 for (let i = 0; i < filterBtn.length; i++) {
   filterBtn[i].addEventListener("click", function () {
-    let selectedValue = this.innerText.toLowerCase();
-    // selectValue.innerText = this.innerText; // This is for mobile select, not desktop buttons
+    let selectedValue = this.dataset.category; // Use dataset.category
     filterFunc(selectedValue);
     lastClickedBtn.classList.remove("active");
     this.classList.add("active");
@@ -134,9 +146,22 @@ for (let i = 0; i < navigationLinks.length; i++) {
     if (this.innerHTML.toLowerCase() === 'portfolio') {
         renderPortfolioItems(allPortfolioItems); // Show all portfolio items
         document.getElementById('portfolio-detail-content').style.display = 'none'; // Hide detail
-        // Reset filter button to 'All'
-        document.querySelector('.filter-list .active')?.classList.remove('active');
-        document.querySelector('[data-filter-btn][data-category="all"]').classList.add('active');
+        // Reset filter button to 'All' on desktop
+        const desktopAllButton = document.querySelector('.filter-list [data-filter-btn][data-category="all"]');
+        if (lastClickedBtn) {
+            lastClickedBtn.classList.remove('active');
+        }
+        if (desktopAllButton) {
+            desktopAllButton.classList.add('active');
+            lastClickedBtn = desktopAllButton;
+        }
+
+        // Reset mobile select dropdown text to "Select category"
+        selectValue.innerText = "Select category";
+    }
+     // If navigating to 'Resume' page, load resume data
+     if (this.innerHTML.toLowerCase() === 'resume') {
+        loadResumeData();
     }
   });
 }
@@ -231,38 +256,11 @@ fetch("assets/data/portfolio.json")
   .then(data => {
     allPortfolioItems = data; // Store all data
     renderPortfolioItems(allPortfolioItems); // Render all initially
+    populateMobileFilterDropdown(); // Populate the mobile dropdown after data is loaded
 
     // Now, let's update the filter functionality to use the new data-driven approach
-    const portfolioFilterBtns = document.querySelectorAll('[data-filter-btn]');
-    portfolioFilterBtns.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove 'active' from previous filter button
-            document.querySelector('.filter-list .active')?.classList.remove('active');
-            // Add 'active' to current filter button
-            this.classList.add('active');
-
-            const category = this.dataset.category;
-            const filteredItems = category === 'all'
-                ? allPortfolioItems
-                : allPortfolioItems.filter(item => item.category.toLowerCase() === category.toLowerCase());
-            renderPortfolioItems(filteredItems);
-        });
-    });
-
-    const portfolioSelectItems = document.querySelectorAll('[data-select-item]');
-    portfolioSelectItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const category = this.dataset.category;
-            const filteredItems = category === 'all'
-                ? allPortfolioItems
-                : allPortfolioItems.filter(item => item.category.toLowerCase() === category.toLowerCase());
-            renderPortfolioItems(filteredItems);
-            // Update select value for mobile
-            selectValue.textContent = this.textContent;
-            elementToggleFunc(select); // Close the select dropdown
-        });
-    });
-
+    // (This part is already in place and works with the updated filterFunc)
+    // The desktop filter buttons are already handled by the 'for' loop above
   })
   .catch(error => console.error("Error loading portfolio data:", error));
 
@@ -359,4 +357,60 @@ function formatDate(dateString) {
   const date = new Date(dateString);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   return date.toLocaleDateString('en-US', options); // e.g. "Feb 23, 2022"
+}
+
+
+// --- RESUME LOADING LOGIC (New) ---
+
+const educationList = document.getElementById('education-list');
+const activitiesList = document.getElementById('activities-list');
+const experienceList = document.getElementById('experience-list');
+
+async function loadResumeData() {
+    try {
+        const response = await fetch('assets/data/resume.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const resumeData = await response.json();
+        
+        renderResumeSection(resumeData, 'education', educationList);
+        renderResumeSection(resumeData, 'activity', activitiesList);
+        renderResumeSection(resumeData, 'experience', experienceList);
+
+    } catch (error) {
+        console.error('Error loading resume data:', error);
+    }
+}
+
+function renderResumeSection(data, type, containerElement) {
+    containerElement.innerHTML = ''; // Clear existing content
+    const filteredData = data.filter(item => item.type === type);
+
+    filteredData.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('timeline-item');
+
+        let detailsHtml = '';
+        if (item.details && Array.isArray(item.details)) {
+            // For education and activities, which have bullet points
+            detailsHtml = `<ul class="timeline-list-details">`;
+            item.details.forEach(detail => {
+                detailsHtml += `<li>${detail}</li>`;
+            });
+            detailsHtml += `</ul>`;
+        } else if (item.description) {
+            // For experience, which has a paragraph description
+            // Replace newline characters with <br> for proper rendering
+            const formattedDescription = item.description.replace(/\n/g, '<br>');
+            detailsHtml = `<p class="timeline-text">${formattedDescription}</p>`;
+        }
+
+        listItem.innerHTML = `
+            <h4 class="h4 timeline-item-title">${item.title}</h4>
+            <span>${item.years}</span>
+            ${detailsHtml}
+        `;
+        containerElement.appendChild(listItem);
+    });
 }

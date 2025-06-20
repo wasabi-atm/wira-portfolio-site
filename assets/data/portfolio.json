@@ -1,83 +1,110 @@
 [
   {
-    "id": "project-finance",
-    "image": "./assets/images/project-1.jpg",
-    "alt": "Finance dashboard concept",
-    "title": "Finance",
-    "category": "Web development",
-    "caption": "A modern dashboard design for financial analytics.",
-    "long_description": "This project involved creating an intuitive and visually appealing dashboard for financial data visualization. Focus was on clear data representation and user experience for complex information."
+    "id": "bape-coffee",
+    "image": "https://i.ibb.co/ym9NbvGD/Bape-Coffee-Logo-BG.png",
+    "alt": "(ID)Logo of a Local Coffee Shop in Lombok",
+    "title": "(ID)Logo of a Local Coffee Shop in Lombok",
+    "category": "Logo Design",
+    "caption": "A meaningful logo design featuring the owner’s father for Bape Coffee, a local Lombok café.",
+    "long_description": "Bape Coffee isn’t just another café — it’s a tribute. The name “Bape” means “Father” in Balinese, and the logo proudly features an illustrated portrait of the owner’s father, symbolizing heritage, gratitude, and deep personal roots. Set in the heart of Lombok, this coffee shop blends tradition with modern design sensibilities. The logo was crafted to feel warm and familiar, with hand-drawn touches and earthy tones that reflect the family’s story and the richness of local coffee culture. This project was all about turning a family memory into a timeless brand identity that locals can connect with and visitors won’t forget."
   },
   {
-    "id": "project-orizon",
-    "image": "./assets/images/project-2.png",
-    "alt": "Orizon landing page",
-    "title": "Orizon",
-    "category": "Web development",
-    "caption": "Landing page design for a creative agency.",
-    "long_description": "Designed and developed a responsive landing page for a fictional creative agency, emphasizing a clean layout and engaging visuals."
+    "id": "yelita-logo",
+    "image": "https://i.ibb.co/pBVVSzzM/Yelita-Beauty-BG.png",
+    "alt": "(ID)Logo of a Beauty Salon: Yelita",
+    "title": "(ID)Logo of a Beauty Salon: Yelita",
+    "category": "Logo Design",
+    "caption": "A graceful and feminine logo design for Yelita, a modern beauty salon brand.",
+    "long_description": "Yelita is a beauty salon that prides itself on elegance, empowerment, and self-care — and the logo was designed to embody exactly that. Inspired by soft curves and delicate forms, the visual identity captures a sense of sophistication without losing approachability. The typography is carefully chosen to feel luxurious yet warm, while the symbol reflects beauty in motion — representing hair, skin, and the fluidity of self-expression. This project was a deep dive into brand storytelling, creating a look that speaks to confident, modern women seeking beauty services with a personal touch."
   },
   {
-    "id": "project-fundo",
-    "image": "./assets/images/project-3.jpg",
-    "alt": "Fundo app design",
-    "title": "Fundo",
-    "category": "Web design",
-    "caption": "UI/UX design for a mobile fundraising application.",
-    "long_description": "Full UI/UX design process for a mobile application aimed at simplifying fundraising for various causes. Included user flows, wireframes, and high-fidelity mockups."
+    "id": "yelita-email",
+    "image": "https://i.ibb.co/PGJvcfcD/Email-Design-1.png",
+    "alt": "(ID)Email Newsletter Design for Yelita",
+    "title": "(ID)Email Newsletter Design for Yelita",
+    "category": "Email Design",
+    "caption": "Chic and engaging email newsletter design for Yelita Beauty Salon.",
+    "long_description": "To elevate Yelita’s digital presence, this project focused on designing a stylish and responsive email newsletter that feels just as elegant as the salon itself. The layout was crafted to highlight seasonal promotions, new treatments, and beauty tips — all while staying consistent with Yelita’s soft, feminine brand identity. Strategic use of white space, curated imagery, and warm color accents ensured the content remained scannable and visually appealing across devices. This newsletter isn’t just a marketing tool — it’s an extension of Yelita’s voice, designed to keep clients inspired, informed, and coming back for more."
   },
   {
-    "id": "project-brawlhalla",
-    "image": "./assets/images/project-4.png",
-    "alt": "Brawlhalla character selection screen",
-    "title": "Brawlhalla",
-    "category": "Applications",
-    "caption": "Fan-art inspired character selection interface.",
-    "long_description": "A personal project exploring UI design within a gaming context, specifically a redesign concept for a character selection screen in the game Brawlhalla."
+    "id": "sabha-logo",
+    "image": "https://i.ibb.co/gZRLrfYR/Sabha-Logo-w-BG.png",
+    "alt": "(ID)Logo for Student Event",
+    "title": "(ID)Logo for Student Event",
+    "category": "Logo Design",
+    "caption": "A bold and symbolic logo design for Sabha, a student-led cultural and academic event.",
+    "long_description": "The Sabha logo was created for a student-organized event that celebrates intellectual discourse, cultural pride, and youth leadership. The design blends traditional motifs with a modern visual language, aiming to spark curiosity while honoring heritage. Inspired by the meaning of “Sabha” — a gathering or assembly — the emblem symbolizes unity, collaboration, and progressive thought among students. From the choice of shapes to the type treatment, every element was crafted to feel both official and youthful, making it suitable for banners, merchandise, and digital platforms. This project was about capturing the spirit of student empowerment in one memorable mark."
   },
   {
-    "id": "project-dsm",
-    "image": "./assets/images/project-5.png",
-    "alt": "DSM branding mockups",
-    "title": "DSM.",
-    "category": "Web design",
-    "caption": "Branding and web design for a digital marketing firm.",
-    "long_description": "Comprehensive branding exercise including logo, color palette, and a minimalist web design for a digital strategy and marketing company."
+    "id": "ukmkhd-logo",
+    "image": "https://i.ibb.co/11KjVdD/Logo-UKM-w-BG.png",
+    "alt": "(ID)Logo Redesign for Student Organization",
+    "title": "(ID)Logo Redesign for Student Organization",
+    "category": "Logo Design",
+    "caption": "A culturally rooted logo design for UKMKHD, a Hindu student organization.",
+    "long_description": "This logo was created for UKMKHD, a Hindu student organization that emphasizes cultural preservation, education, and spiritual growth. The design centers around a peacock — a sacred symbol in Hinduism — fanned by radiant feather motifs that evoke knowledge, enlightenment, and harmony. The open book beneath represents learning, while the Sanskrit-style Om symbol on the body of the bird reinforces the spiritual foundation of the group. The warm-to-cool gradient adds a modern touch, symbolizing the unity of tradition and progress. This identity system was crafted to reflect pride in heritage while remaining adaptable for use across campus events, merchandise, and digital platforms."
   },
   {
-    "id": "project-metaspark",
-    "image": "./assets/images/project-6.png",
-    "alt": "MetaSpark website design",
-    "title": "MetaSpark",
-    "category": "Web design",
-    "caption": "Interactive website concept for a tech startup.",
-    "long_description": "Developed an interactive web prototype for MetaSpark, a conceptual tech startup, focusing on engaging animations and a user-friendly information architecture."
+    "id": "kids-menu",
+    "image": "https://i.ibb.co/WNCq2rfZ/Kids-Menu-from-Wira-Wibisana.png",
+    "alt": "(SG)Kids Menu Design",
+    "title": "(SG)Kids Menu Design",
+    "category": "Print Design",
+    "caption": "Cheerful and family-friendly kids meal banner design for Maguro Brothers Singapore.",
+    "long_description": "This print banner was designed to promote Maguro Brothers’ special Free Kids Meal campaign, aiming to attract families with young children. The layout clearly distinguishes two menu options — Kids Udon for ages 2–5 and a Kids Set Menu for ages 6–10 — with vibrant visuals and playful characters to make the message instantly appealing. The use of bold red headers grabs attention, while the color-coded sections help parents navigate options easily. Designed with both practicality and charm in mind, this banner enhances in-store visibility and delivers the campaign details in a fun, easy-to-read format — perfectly aligned with the restaurant’s warm, family-focused brand."
   },
   {
-    "id": "project-summary",
-    "image": "./assets/images/project-7.png",
-    "alt": "Summary application development",
-    "title": "Summary",
-    "category": "Web development",
-    "caption": "Web application for summarizing long articles.",
-    "long_description": "A web application built to provide quick summaries of web articles using natural language processing techniques. Involved front-end development and API integration."
+    "id": "izakaya-menu",
+    "image": "https://i.ibb.co/cS2CjrPY/Tachibana-Menu-from-Wira-Wibisana.png",
+    "alt": "(SG)Menu for A Newly Opened Izakaya",
+    "title": "(SG)Menu for A Newly Opened Izakaya",
+    "category": "Print Design",
+    "caption": "Clean and visually structured lunch menu design for a newly opened Izakaya in Singapore.",
+    "long_description": "This print menu was created for the launch of Tachibana, a new izakaya-style eatery in Singapore, offering value-packed lunch sets at $15 nett. The layout is optimized for quick decision-making, using a structured grid to separate set options by category: Fry Sets, Curry Sets, and Specialty Rice & Noodle Sets. Bold headers, clear pricing, and high-quality food photography help customers easily scan the menu, while bilingual labeling (English & Japanese) appeals to both local and Japanese-speaking diners. Designed for table-top displays and wall posters, the menu balances function with a refined visual appeal — helping the restaurant communicate variety and value without clutter."
   },
   {
-    "id": "project-taskmanager",
-    "image": "./assets/images/project-8.jpg",
-    "alt": "Task Manager mobile app",
-    "title": "Task Manager",
-    "category": "Applications",
-    "caption": "Productivity mobile application with task tracking.",
-    "long_description": "Designed and developed a cross-platform mobile application for personal task management, including features like task categorization, reminders, and progress tracking."
+    "id": "outdoor-board",
+    "image": "https://i.ibb.co/0yQC1D9m/Wira-Wibisana.png",
+    "alt": "(SG)Outdoor Board Menu",
+    "title": "(SG)Outdoor Board Menu",
+    "category": "Print Design",
+    "caption": "Eye-catching outdoor lunch promotion board for Teppan Works Singapore.",
+    "long_description": "This A-frame outdoor display was created for Teppan Works, a Japanese casual dining spot, to highlight their weekday lunch specials. The design focuses on immediate visual appeal and menu clarity, featuring high-contrast colors, mouthwatering close-up food photography, and bold typography. Key offerings like Yakisoba and Okonomiyaki are placed front and center, with pricing details and upsell prompts (e.g., Add First Drink +$1) designed to drive foot traffic and increase order value. Optimized for street-level viewing, the layout ensures legibility from a distance while maintaining brand consistency with Teppan Works’ vibrant, energetic identity."
   },
   {
-    "id": "project-arrival",
-    "image": "./assets/images/project-9.png",
-    "alt": "Arrival web design concept",
-    "title": "Arrival",
-    "category": "Web development",
-    "caption": "Experimental web design focusing on scroll-based animations.",
-    "long_description": "An experimental project focusing on creating a visually rich web experience with scroll-triggered animations and dynamic content loading, inspired by modern interactive websites."
+    "id": "sushi-pizza",
+    "image": "https://i.ibb.co/tpwXwpDv/Sushi-Pizza-from-Wira-Wibisana.png",
+    "alt": "(SG)New Unique Menu Item Print Design",
+    "title": "(SG)New Unique Menu Item Print Design",
+    "category": "Print Design",
+    "caption": "Bold poster design introducing Sushi Pizza and refreshing floats for Maguro Brothers Singapore.",
+    "long_description": "This eye-catching poster was created to spotlight one of Maguro Brothers’ most unique menu innovations: Sushi Pizza — a fusion of Japanese sushi flavors with the playful format of pizza. Designed for wall displays and takeout counters, the layout balances visual excitement with clear information. Numbered slices help customers easily identify each variety, from Salmon Teriyaki to Spicy Salmon and Charshi. To complement the rich flavors, a trio of colorful Float drinks adds a refreshing upsell element. Clean typography, balanced spacing, and a modern palette make this poster not just informative, but also a conversation starter — helping the restaurant stand out in Singapore’s crowded food scene."
+  },
+  {
+    "id": "monthly-promo",
+    "image": "https://i.ibb.co/JR4fMH9M/MD-Promo.png",
+    "alt": "(SG)Monthly Promotion Posted Design",
+    "title": "(SG)Monthly Promotion Posted Design",
+    "category": "Print Design",
+    "caption": "Premium lunch promotion poster design for Maguro Brothers Singapore, featuring limited-edition donburi specials.",
+    "long_description": "This bold and enticing poster was designed to highlight Maguro Brothers’ limited-time lunch promotions, featuring the Voluminous Maguro Don and the Deluxe Unagi Don. With only 10 portions available daily, the design needed to create urgency while showcasing the premium appeal of each dish. Key visuals — such as close-up shots of the donburi and striking price tags — were used to catch attention fast. Carefully structured with clear dates, pricing, and QR code for quick access, the layout is both promotional and highly informative. Whether displayed at the storefront or on social media, this print piece blends bold aesthetics with marketing effectiveness to drive footfall and excitement."
+  },
+  {
+    "id": "fresh-menu",
+    "image": "https://i.ibb.co/SD0zXQcN/Wira-Wibisana.jpg",
+    "alt": "(SG)Fresh Oyster Menu Design",
+    "title": "(SG)Fresh Oyster Menu Design",
+    "category": "Print Design",
+    "caption": "Seasonal promotional flyer for Premium Hokkaido Oysters at Sabar Singapore",
+    "long_description": "This limited-time promotional flyer was created for Sabar's July Special, spotlighting their fan-favorite Premium Hokkaido Oysters at an attractive price of $19.80++ (U.P. $26.80++). The design is crafted to feel fresh, celebratory, and exclusive — incorporating oceanic tones, bold highlights, and clear callouts to convey both value and seasonality. Strategically placed QR codes enhance customer interaction, while the “Thank You” headline at the top adds a personal touch to customer appreciation. Perfect for dine-in table displays and takeaway inserts, this flyer helped the brand drive awareness and traffic for a high-margin seasonal side dish."
+  },
+  {
+    "id": "highschool-drama",
+    "image": "https://i.ibb.co/tWY3Rk8/Personal-Project.png",
+    "alt": "(ID)Highschool Drama Novel Logo Design",
+    "title": "(ID)Highschool Drama Novel Logo Design",
+    "category": "Logo Design",
+    "caption": "Youthful and emotional logo design for Dhusarasweta, a high school drama novel series.",
+    "long_description": "Dhusarasweta is a fictional high school drama novel that explores friendship, rivalry, romance, and growing pains in a uniquely local setting. The logo was designed to reflect the emotional highs and lows of teenage life — using a handwritten script font that feels both personal and expressive. Each letter is accented with suit icons (♠️ ♦️ ♣️ ♥️), representing different personality archetypes and plot dynamics within the story. The background photo of schoolgirls reading adds depth, suggesting a story that feels familiar yet layered with drama. A soft purple-pink overlay enhances the mood, making this design ideal for digital covers, promotional banners, and social media teasers aimed at young adult readers."
   }
 ]
