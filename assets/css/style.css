@@ -121,6 +121,10 @@
   --mouse-y: 50%;
   --rotate-x: 0deg;
   --rotate-y: 0deg;
+
+  /* Added navbar height variable for consistent control */
+  --navbar-height: 70px; /* Set a default fixed height for the navbar */
+  --sidebar-width-desktop: 300px; /* New variable for sidebar width on desktop */
 }
 
 
@@ -184,10 +188,10 @@ body {
 article {
   background: var(--eerie-black-2);
   border: 1px solid var(--jet);
-  border-radius: 20px;
-  padding: 15px;
   box-shadow: var(--shadow-1);
   z-index: 1;
+  /* Default border-radius, will be overridden by specific media queries */
+  border-radius: 20px;
 }
 
 .separator {
@@ -381,17 +385,14 @@ article[data-spotlight-card] > section {
 \*-----------------------------------*/
 
 main {
-  /* Adjusted margin-inline for better overall padding */
-  margin-inline: auto;
+  margin-inline: 12px;
   margin-top: 15px;
   margin-bottom: 75px;
   min-width: 259px;
-  /* Added padding for consistent spacing on all sides for the whole main content area */
   padding: 15px;
-  max-width: 1200px; /* Constrain max-width for overall layout */
-  display: flex; /* Use flex for main layout */
-  flex-direction: column; /* Stack sidebar and main-content vertically by default */
-  gap: 25px; /* Gap between sidebar and main-content */
+  max-width: 1200px;
+  display: block; /* Revert to original block display for stacking by default */
+  /* Remove margin-top from main, as navbar is now inside main-content again */
 }
 
 
@@ -404,16 +405,16 @@ main {
 
 .sidebar {
   margin-bottom: 15px;
-  /* Initial collapsed height, adjusted slightly for mobile */
-  max-height: 112px;
-  overflow: hidden; /* Hide content beyond max-height */
-  transition: max-height var(--transition-2); /* Animate max-height */
+  max-height: 112px; /* Initial collapsed height for mobile */
+  overflow: hidden;
+  transition: max-height var(--transition-2);
+  padding: 15px;
+  border-radius: 20px;
 }
 
 .sidebar.active {
-  /* Set max-height to a very large value to ensure content is never cut off, allows smooth transition */
-  max-height: 1000px; /* Increased to ensure all content fits */
-  overflow: visible; /* Allow content to be visible when expanded */
+  max-height: 405px; /* Max height for expanded mobile sidebar */
+  overflow: visible;
 }
 
 .sidebar-info {
@@ -425,42 +426,31 @@ main {
 }
 
 .sidebar-info .name {
-  /* Apply the gradient as a background */
   background-image: linear-gradient(to right, var(--gradient-name-start), var(--gradient-name-end));
-
-  /* Clip the background to the text shape (Webkit-specific) */
   -webkit-background-clip: text;
-  background-clip: text; /* Added for compatibility */
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  /* Fallback for browsers that don't support -webkit-text-fill-color (though widely supported) */
   color: transparent;
-
-  /* Ensure no default text-shadow or other conflicting text styles */
   text-shadow: none;
-  /* Removed text-transform: capitalize for the name to respect original casing from HTML */
   text-transform: none;
-
-  /* Optional: Adjust font weight or size if needed for the effect */
-  font-weight: var(--fw-600); /* Make it bolder to show gradient more */
-  font-size: var(--fs-1); /* Adjust size if needed, using your variable */
-  white-space: normal; /* Allow name to wrap if too long */
+  font-weight: var(--fw-600);
+  font-size: var(--fs-1);
+  white-space: normal;
 }
 
 .avatar-box {
   background: var(--bg-gradient-onyx);
   border-radius: 20px;
-  /* Enforce 1:1 aspect ratio */
-  width: 80px; /* Fixed width */
-  height: 80px; /* Fixed height for 1:1 ratio */
-  flex-shrink: 0; /* Prevent it from shrinking */
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
 }
 
 .avatar-box img {
-  width: 100%; /* Make image fill the avatar-box */
-  height: 100%; /* Make image fill the avatar-box */
-  object-fit: cover; /* Crop image to fit while maintaining aspect ratio */
-  border-radius: inherit; /* Inherit border-radius from parent (.avatar-box) */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
 .info-content .name {
@@ -516,7 +506,7 @@ main {
 .sidebar-info_more {
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-2), visibility var(--transition-2); /* Animate opacity and visibility */
+  transition: opacity var(--transition-2), visibility var(--transition-2);
 }
 
 .sidebar.active .sidebar-info_more {
@@ -582,16 +572,21 @@ main {
 \*-----------------------------------*/
 
 .navbar {
-  position: fixed; /* Keep fixed position for mobile */
-  bottom: 0;
+  position: fixed; /* Reverted to fixed for mobile */
+  bottom: 0; /* Stays at the bottom for mobile */
   left: 0;
   width: 100%;
   background: hsla(240, 1%, 17%, 0.75);
   backdrop-filter: blur(10px);
   border: 1px solid var(--jet);
-  border-radius: 12px 12px 0 0;
+  border-radius: 12px 12px 0 0; /* Original mobile border radius */
   box-shadow: var(--shadow-2);
-  z-index: 5;
+  z-index: 5; /* Original z-index for mobile */
+  /* Height and flex properties for mobile/tablet behavior */
+  height: var(--navbar-height); /* Fixed height for navbar */
+  display: flex; /* Use flex to align items */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Center horizontally for mobile */
 }
 
 .navbar-list {
@@ -603,11 +598,11 @@ main {
 }
 
 .navbar-link {
-  position: relative; /* Added to position ::after correctly */
+  position: relative;
   color: var(--light-gray);
   font-size: var(--fs-8);
   padding: 20px 7px;
-  padding-bottom: 23px; /* Added bottom padding to push the pill down */
+  padding-bottom: 20px; /* Adjusted to align with navbar-height changes */
   transition: color var(--transition-1);
 }
 
@@ -619,13 +614,13 @@ main {
 .navbar-link.active::after {
   content: "",;
   position: absolute;
-  bottom: 0px; /* Adjusted to 0px for closer alignment with the link's bottom padding */
+  bottom: 0px; /* Ensure the active indicator is at the very bottom of the navbar */
   left: 50%;
   transform: translateX(-50%);
-  width: 25px; /* Adjust width of the pill */
-  height: 3px; /* Adjust height of the pill */
-  background: var(--emerald-green); /* Color of the pill */
-  border-radius: 1.5px; /* Rounded corners for the pill */
+  width: 25px;
+  height: 3px;
+  background: var(--emerald-green);
+  border-radius: 1.5px;
 }
 
 
@@ -1436,6 +1431,12 @@ textarea.form-input::-webkit-resizer { display: none; }
       color: var(--white-2); /* Ensure consistent color */
     }
 
+    /* Ensure year text is visible on mobile */
+    .timeline-item span {
+      color: var(--light-gray); /* Set a visible color for year text on mobile */
+    }
+
+
     /**
      * #PORTFOLIO, BLOG
      */
@@ -1645,6 +1646,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar {
     max-height: 180px; /* Adjusted initial height for 580px+ */
     margin-bottom: 30px;
+    padding: 30px; /* Tablet default padding */
   }
 
   .sidebar.active { max-height: 600px; } /* Increased for enough space on tablets */
@@ -1696,7 +1698,11 @@ textarea.form-input::-webkit-resizer { display: none; }
   /**
    * #NAVBAR
    */
-  .navbar { border-radius: 20px 20px 0 0; }
+  .navbar {
+    border-radius: 0 0 20px 20px; /* Rounded bottom corners globally */
+    justify-content: flex-end; /* Push links to the right on larger screens */
+    height: var(--navbar-height); /* Ensure fixed height using variable */
+  }
 
   .navbar-list { gap: 20px; }
 
@@ -1809,6 +1815,31 @@ textarea.form-input::-webkit-resizer { display: none; }
    */
   .timeline-list {
     margin-left: 45px;
+    padding-bottom: 30px; /* Add padding to the bottom of the list */
+  }
+
+  .timeline-item {
+    margin-bottom: 25px; /* Add space between each timeline item */
+    padding-bottom: 15px; /* Add internal padding for each item */
+    border-bottom: 1px dashed var(--jet); /* Subtle separator between items */
+  }
+
+  .timeline-item:last-child {
+    border-bottom: none; /* No border for the last item */
+    margin-bottom: 0; /* No bottom margin for the last item */
+    padding-bottom: 0;
+  }
+
+  .timeline-item-title {
+    margin-bottom: 5px; /* Space below the title */
+  }
+
+  .timeline-item span {
+    display: block; /* Ensure years are on their own line */
+    color: var(--emerald-green); /* Highlight the years */
+    font-size: var(--fs-7); /* Smaller font size for years */
+    font-weight: var(--fw-500); /* Slightly bolder years */
+    margin-bottom: 10px; /* Space below years */
   }
 
   /* Ensured text color for all elements within timeline-list */
@@ -1829,12 +1860,13 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .timeline-list-details li {
     margin-bottom: 5px; /* Space between list items */
+    line-height: 1.6; /* Good line height for readability */
   }
 
   .timeline-list p.timeline-text { /* Target paragraphs within timeline lists */
     margin-top: 5px; /* Consistent spacing for paragraphs */
     margin-bottom: 10px; /* More space below paragraphs */
-    line-height: 1.6; /* Ensure good line height */
+    line-height: 1.7; /* Ensure good line height */
     color: var(--white-2); /* Ensure consistent color */
   }
 
@@ -1874,6 +1906,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   .input-wrapper {
+    grid-template-columns: 1fr 1fr;
     gap: 30px;
     margin-bottom: 30px;
   }
@@ -1897,6 +1930,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     text-transform: capitalize;
     box-shadow: var(--shadow-3);
     z-index: 1;
+    transition: var(--transition-1);
   }
 
   .form-btn::before {
@@ -1934,22 +1968,113 @@ textarea.form-input::-webkit-resizer { display: none; }
   .sidebar, article {
     width: auto; /* Allow auto width for mobile/tablet */
     max-width: 700px; /* Constrain max width for this breakpoint */
+    padding: 30px; /* Consistent padding for tablet cards */
   }
 
   .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
 
   /**
-   * SIDEBAR
+   * MAIN
+   * Reverted to block display (stacking) for tablets
    */
-  .contacts-list {
-    grid-template-columns: 1fr 1fr;
+  main {
+    display: block; /* Stacks sidebar and main-content vertically */
+    margin-top: 60px; /* Adjust top margin for visual spacing (navbar is now inside main-content) */
+    margin-inline: auto; /* Center the entire main content block */
+    max-width: 700px; /* Limit max-width for tablet */
+    padding: 20px; /* Consistent padding around entire main area */
+  }
+
+  .main-content {
+    min-width: 0;
+    flex-grow: 0;
+    width: auto;
+    margin: 0;
+    padding-top: 0; /* Remove padding-top from main-content, navbar will handle its own space */
+  }
+
+  /**
+   * SIDEBAR
+   * Reverted to behave like a standard block, collapsible sidebar on tablet
+   */
+  .sidebar {
+    position: relative; /* Revert to relative positioning */
+    top: auto; /* Remove sticky top */
+    max-height: 180px; /* Collapsed height for tablet */
+    height: auto;
+    margin-bottom: 30px; /* Space below sidebar */
+    padding: 30px; /* Adjusted padding for tablet */
+    z-index: 1; /* Standard z-index */
+    border-radius: 20px; /* All corners rounded for card look */
+    width: auto; /* Revert to auto width */
+  }
+
+  .sidebar.active {
+    max-height: 600px; /* Expanded height for tablet */
+  }
+
+  .sidebar-info { flex-direction: row; /* Keep avatar and name side-by-side on tablet */
+    justify-content: flex-start; /* Align to start */
+    align-items: center; /* Vertically align */
+  }
+
+  .avatar-box {
+    width: 100px; /* Consistent with 580px+ */
+    height: 100px; /* Consistent with 580px+ */
+  }
+  .info-content .name {
+    text-align: left; /* Align name left next to avatar */
+    white-space: normal;
+  }
+  .info-content .title {
+    margin: 0; /* Remove auto margin */
+  }
+  .info_more-btn { display: block; } /* Show mobile toggle button on tablets too */
+  .sidebar-info_more { /* Hide contact info by default on tablet, controlled by toggle */
+    opacity: 0;
+    visibility: hidden;
+  }
+  .sidebar.active .sidebar-info_more { /* Show when active */
+    opacity: 1;
+    visibility: visible;
+  }
+  .contacts-list { grid-template-columns: 1fr 1fr; /* Two columns for contacts on tablet */
     gap: 30px 15px;
+  }
+  .contact-info :is(.contact-link) {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .separator:last-of-type {
+    margin: 32px 0; /* Revert to default spacing */
+    opacity: 1;
   }
 
   /**
    * NAVBAR
+   * Reverted to positioning relative to main content, but at the top-right
    */
+  .navbar {
+    position: absolute; /* Revert to absolute positioning within main-content */
+    top: 0; /* Position at the top of the main-content */
+    left: auto;
+    right: 0;
+    width: auto; /* Let width be determined by content */
+    height: var(--navbar-height); /* Keep using the variable for consistency */
+    border-radius: 0 20px; /* Top-right rounded corner */
+    padding: 0 20px;
+    box-shadow: none; /* Remove box shadow */
+    background: transparent; /* Transparent background */
+    z-index: 5; /* Standard z-index */
+    display: block; /* Revert to block display */
+  }
+  .navbar-list {
+    justify-content: flex-end; /* Push links to the right */
+    gap: 30px;
+  }
   .navbar-link { --fs-8: 15px; }
+
 
   /**
    * ABOUT
@@ -2131,42 +2256,64 @@ textarea.form-input::-webkit-resizer { display: none; }
   main {
     margin-bottom: 60px;
     display: flex; /* Use flex for main layout */
+    flex-direction: row; /* Sidebar and main-content side-by-side on desktop */
     justify-content: center;
     align-items: stretch;
     gap: 25px;
     max-width: 1200px; /* Adjusted from 1250px to provide some margin at the very large screens */
     margin-inline: auto; /* Center the entire main content block */
     padding: 30px; /* Increase main padding for desktop */
-    flex-direction: row; /* Layout sidebar and main-content side-by-side on desktop */
   }
 
   .main-content {
     position: relative;
     width: 75%; /* Changed from max-content */
     margin: auto;
+    padding-top: 0; /* No padding-top needed here, navbar is absolute top */
+  }
+
+  /**
+   * SIDEBAR
+   */
+  .sidebar {
+    position: sticky;
+    top: 60px; /* Stick to top after 60px scroll */
+    max-height: max-content; /* Allow sidebar to take full height on large screens */
+    height: auto; /* Ensure it's not fixed height */
+    margin-bottom: 0;
+    padding-top: 60px; /* Push content down from sticky top */
+    z-index: 1;
+    border-radius: 20px; /* All corners rounded for card look */
+  }
+  .avatar-box {
+    width: 150px; /* Revert to larger size for desktop */
+    height: 150px;
+  }
+  .info-content .name {
+    white-space: nowrap; /* Re-enable nowrap for name on very wide screens if desired */
+    text-align: center;
   }
 
   /**
    * NAVBAR
    */
   .navbar {
-    position: absolute;
-    bottom: auto;
+    position: absolute; /* Revert to absolute positioning for desktop */
     top: 0;
     left: auto;
     right: 0;
-    width: auto; /* Changed to auto for better responsiveness */
-    border-radius: 0 20px;
+    width: auto; /* Allow width to be determined by content */
+    height: var(--navbar-height); /* Let height be determined by its content */
+    border-radius: 0 20px; /* Top-right rounded corner */
     padding: 0 20px;
-    box-shadow: none;
+    box-shadow: none; /* Remove box shadow */
+    background: transparent; /* Transparent background */
+    z-index: 5; /* Standard z-index */
   }
-
   .navbar-list {
-    gap: 30px;
-    padding: 0 20px;
     justify-content: flex-end;
+    gap: 30px;
   }
-
   .navbar-link { font-weight: var(--fw-500); }
 
   /**

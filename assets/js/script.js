@@ -374,9 +374,11 @@ async function loadResumeData() {
         }
         const resumeData = await response.json();
         
-        renderResumeSection(resumeData, 'education', educationList);
-        renderResumeSection(resumeData, 'activity', activitiesList);
+        // Render sections in the desired order: Experience > Activities > Education
         renderResumeSection(resumeData, 'experience', experienceList);
+        renderResumeSection(resumeData, 'activity', activitiesList);
+        renderResumeSection(resumeData, 'education', educationList);
+
 
     } catch (error) {
         console.error('Error loading resume data:', error);

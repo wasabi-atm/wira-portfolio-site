@@ -1,15 +1,27 @@
 [
   {
-    "type": "education",
-    "title": "Universitas Jember",
-    "years": "2019-2024",
-    "details": [
-      "International Relations",
-      "President of Hindu Activity Unit",
-      "Jember Branch President at KMHDI",
-      "Part of Faculty’s International Accreditation Team",
-      "Member of Model United Nation (MUN) Activity Unit."
-    ]
+    "type": "experience",
+    "title": "Creative Designer at J Passport",
+    "years": "2023-2024",
+    "description": "I design 2–3 articles and email marketing visuals weekly using Beefree, while coordinating directly with clients to align content with their restaurant promotions. I handle customer support follow-ups, use basic HTML to build newsletters, and segment mailing lists for targeted campaigns. I also generate monthly performance reports and contribute to strategic planning for each client’s marketing efforts. Beyond that, I create Shopify-based e-commerce websites, manage team schedules in Google Sheets, and assist the development team with app and system updates across beta and production environments."
+  },
+  {
+    "type": "experience",
+    "title": "Co-Founder at ClickSwipe",
+    "years": "2022",
+    "description": "ClickSwipe is a creative industry striving to create educational content within the science of international relations. As one of the Co-Founder, early on; I'm responsible for the development of ClickSwipe's brand identity and visual aspects.\n\nMy job description alias is the Lead Visual Designer for ClickSwipe."
+  },
+  {
+    "type": "experience",
+    "title": "Motion Graphics Designer at DIGIDES",
+    "years": "2022",
+    "description": "In DIGIDES, I was the project leader for developing educational and promotional content for their digital branding. I managed the task assignment for our group, in this project I tasked myself with making the motion graphic and editing their promotional video."
+  },
+  {
+    "type": "experience",
+    "title": "Creative Designer at TRISC",
+    "years": "2021",
+    "description": "In DIGIDES, I was the project leader for developing educational and promotional content for their digital branding. I managed the task assignment for our group, in this project I tasked myself with making the motion graphic and editing their promotional video."
   },
   {
     "type": "activity",
@@ -42,27 +54,15 @@
     ]
   },
   {
-    "type": "experience",
-    "title": "Creative Designer at J Passport",
-    "years": "2023-2024",
-    "description": "I design 2–3 articles and email marketing visuals weekly using Beefree, while coordinating directly with clients to align content with their restaurant promotions. I handle customer support follow-ups, use basic HTML to build newsletters, and segment mailing lists for targeted campaigns. I also generate monthly performance reports and contribute to strategic planning for each client’s marketing efforts. Beyond that, I create Shopify-based e-commerce websites, manage team schedules in Google Sheets, and assist the development team with app and system updates across beta and production environments."
-  },
-  {
-    "type": "experience",
-    "title": "Co-Founder at ClickSwipe",
-    "years": "2022",
-    "description": "ClickSwipe is a creative industry striving to create educational content within the science of international relations. As one of the Co-Founder, early on; I'm responsible for the development of ClickSwipe's brand identity and visual aspects.\n\nMy job description alias is the Lead Visual Designer for ClickSwipe."
-  },
-  {
-    "type": "experience",
-    "title": "Motion Graphics Designer at DIGIDES",
-    "years": "2022",
-    "description": "In DIGIDES, I was the project leader for developing educational and promotional content for their digital branding. I managed the task assignment for our group, in this project I tasked myself with making the motion graphic and editing their promotional video."
-  },
-  {
-    "type": "experience",
-    "title": "Creative Designer at TRISC",
-    "years": "2021",
-    "description": "In DIGIDES, I was the project leader for developing educational and promotional content for their digital branding. I managed the task assignment for our group, in this project I tasked myself with making the motion graphic and editing their promotional video."
+    "type": "education",
+    "title": "Universitas Jember",
+    "years": "2019-2024",
+    "details": [
+      "International Relations",
+      "President of Hindu Activity Unit",
+      "Jember Branch President at KMHDI",
+      "Part of Faculty’s International Accreditation Team",
+      "Member of Model United Nation (MUN) Activity Unit."
+    ]
   }
 ]
