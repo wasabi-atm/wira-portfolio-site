@@ -461,19 +461,18 @@
             </li>
           </ul>
 
-          <div class="filter-select-box">
-            <button class="filter-select" data-select>
-              <div class="select-value" data-selecct-value>Select category</div>
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-            </button>
-            <ul class="select-list" data-select-list>
-            </ul>
-          </div>
+          <div class="filter-select-box" data-select>
+    <span class="select-value" data-selecct-value>Select category</span>
+    <div class="select-icon">
+        <ion-icon name="chevron-down"></ion-icon>
+    </div>
+    <ul class="select-list" data-select-list>
+        <!-- dropdown items go here -->
+    </ul>
+</div>
 
           <ul class="project-list" id="project-list">
-            </ul>
+          </ul>
 
         </section>
 
@@ -492,7 +491,7 @@
                 <p class="portfolio-modal-description" data-portfolio-modal-description></p>
             </div>
         </section>
-        </article>
+      </article>
 
 
       <article class="blog" data-page="blog" data-spotlight-card>
@@ -532,27 +531,12 @@
           </figure>
         </section>
 
-        <section class="contact-form">
-
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="#" class="form" data-form>
-
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
-            </div>
-
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-
-          </form>
-
+        <section class="contact-info-button">
+          <h3 class="h3 form-title">Get in Touch</h3>
+          <a href="mailto:atmanawiera@gmail.com" class="form-btn">
+            <ion-icon name="mail-outline"></ion-icon>
+            <span>Send Email</span>
+          </a>
         </section>
 
       </article>

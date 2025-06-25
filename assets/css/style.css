@@ -475,7 +475,7 @@ main {
   position: absolute;
   top: -15px;
   right: -15px;
-  border-radius: 0 15px;
+  border-radius: 0 15px; /* Default for collapsed state */
   font-size: 13px;
   color: var(--emerald-green);
   background: var(--border-gradient-onyx);
@@ -494,6 +494,15 @@ main {
   transition: var(--transition-1);
   z-index: -1;
 }
+
+/* Adjusted border-radius for active (expanded) state */
+.sidebar.active .info_more-btn {
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px; /* Ensures a square corner on the right side */
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 
 .info_more-btn:hover,
 .info_more-btn:focus { background: var(--bg-gradient-emerald-1); }
@@ -1387,14 +1396,38 @@ textarea.form-input::-webkit-resizer { display: none; }
 .form-btn:disabled:hover::before { background: var(--bg-gradient-jet); }
 
 
+/* Styling for the "Send Email" button in the contact section */
+.contact-info-button .form-btn {
+    width: max-content; /* Allow content to dictate width */
+    margin: 0 auto; /* Center the button */
+    padding: 15px 30px; /* Increase padding for a larger button */
+    font-size: var(--fs-5); /* Increase font size */
+    background: var(--emerald-green); /* Set contrasting background color */
+    color: var(--smoky-black); /* Set contrasting text color */
+    border: 1px solid var(--emerald-green); /* Ensure border matches new background */
+    box-shadow: var(--shadow-2); /* Apply a subtle shadow */
+}
 
+.contact-info-button .form-btn::before {
+    background: transparent; /* Remove inner gradient for solid color button */
+    border: none;
+}
+
+.contact-info-button .form-btn:hover {
+    background: var(--jade-green); /* Slightly different shade on hover */
+    color: var(--white-1); /* Text color change on hover */
+}
+
+.contact-info-button .form-btn:hover::before {
+    background: transparent; /* Keep background transparent on hover */
+}
 
 
 /*-----------------------------------*\
   #RESPONSIVE
 \*-----------------------------------*/
 
-/* Mobile-specific adjustments for elements smaller than 580px */
+/* For mobile devices (screens up to 579px wide) */
 @media (max-width: 579px) {
     /* Ensure sidebar and article are full width with padding on very small screens */
     .sidebar, article {
@@ -1402,6 +1435,11 @@ textarea.form-input::-webkit-resizer { display: none; }
         /* Removed margin-inline for mobile, rely on main's padding for overall spacing */
         margin-inline: 0;
         padding: 15px; /* Keep consistent padding */
+    }
+
+    /* Override article overflow for dropdown visibility */
+    article[data-spotlight-card].dropdown-active-parent {
+        overflow: visible; /* Use visible instead of !important if possible, or keep if necessary */
     }
 
     /* Adjust modal padding to prevent being too small */
@@ -1515,77 +1553,103 @@ textarea.form-input::-webkit-resizer { display: none; }
     }
 
 
-    /* Adjust filter visibility for mobile */
-    .filter-list { /* Desktop filter buttons */
-        display: none;
-    }
+/* Adjust filter visibility for mobile */
+.filter-list { /* Desktop filter buttons */
+    display: none !important; /* Explicitly hide desktop filters on mobile */
+}
 
-    .filter-select-box { /* Mobile select dropdown */
-        display: block; /* Show on mobile */
-        width: 100%;
-        margin-bottom: 20px; /* Space below the dropdown */
-        position: relative;
-        z-index: 2; /* Ensure it's above project list if needed */
-        background: var(--eerie-black-1);
-        border: 1px solid var(--jet);
-        border-radius: 14px;
-        padding: 13px 20px;
-        color: var(--white-2); /* Set dropdown text to white */
-        cursor: pointer;
-        font-size: var(--fs-6);
-        text-align: left;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.filter-select-box { /* Mobile select dropdown */
+    display: flex !important; /* Ensure mobile dropdown is visible and uses flex for internal alignment */
+    width: 100%;
+    min-height: 50px; /* Ensure a minimum clickable height */
+    margin-bottom: 20px; /* Space below the dropdown */
+    position: relative; /* IMPORTANT: Establish positioning context for absolute children */
+    z-index: 20; /* IMPORTANT: Increased z-index to ensure it's on top */
+    background: var(--eerie-black-1);
+    border: 1px solid var(--jet);
+    border-radius: 14px;
+    padding: 13px 20px;
+    cursor: pointer;
+    font-size: var(--fs-6);
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: auto; /* Ensure the main div is clickable */
+}
 
-    .filter-select-box .select-icon ion-icon {
-        color: var(--white-2); /* Set dropdown icon to white */
-        font-size: 18px;
-    }
+/* Enforce white color for the select value text */
+.filter-select-box .select-value {
+    color: var(--white-2) !important; /* Force white color for selected value */
+    text-transform: capitalize;
+    pointer-events: none; /* Let clicks pass through to parent */
+}
 
-    .filter-select-box .select-value {
-        color: var(--white-2); /* Explicitly set selected value text to white */
-        text-transform: capitalize;
-    }
+.filter-select-box .select-icon { /* Target the icon box */
+    pointer-events: none; /* Let clicks pass through to parent */
+}
 
-    .select-list {
-        position: absolute;
-        top: calc(100% + 10px); /* Position below the select box */
-        left: 0;
-        width: 100%;
-        background: var(--eerie-black-1);
-        border: 1px solid var(--jet);
-        border-radius: 14px;
-        padding: 10px 0;
-        box-shadow: var(--shadow-2);
-        z-index: 10; /* Ensure it's on top of other content */
-        display: none; /* Hidden by default */
-    }
+.filter-select-box .select-icon ion-icon {
+    color: var(--white-2) !important; /* Force white color for the icon */
+    font-size: 18px;
+    pointer-events: none; /* Let clicks pass through to parent */
+}
 
-    .filter-select-box.active + .select-list {
-        display: block; /* Show when select box is active */
-    }
+.select-list { /* This is the actual dropdown UL */
+    position: absolute; /* IMPORTANT: Position absolutely relative to .filter-select-box */
+    top: calc(100% + 10px); /* Position 10px below the select box */
+    left: 0; /* Align to the left of the select box */
+    width: 100%; /* Match the width of the select box */
+    background: var(--eerie-black-1); /* Ensure it has a background */
+    border: 1px solid var(--jet);
+    border-radius: 14px;
+    padding: 10px 0;
+    box-shadow: var(--shadow-2);
+    z-index: 100; /* IMPORTANT: Very high z-index to be on top of everything */
+    height: auto; /* Allow height to adjust based on content */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    max-height: 200px; /* Limit max height to prevent it from taking up too much space */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px); /* Start slightly above and move down */
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    pointer-events: none; /* Initially not interactive */
+}
 
-    .select-list .select-item button {
-        display: block;
-        width: 100%;
-        padding: 10px 20px;
-        color: var(--white-2); /* Set list item text to white */
-        font-size: var(--fs-6);
-        text-align: left;
-        transition: background-color 0.2s ease;
-    }
+/* FIXED Selector: Target child [data-select-list] when parent [data-select] is active */
+[data-select].active [data-select-list] {
+    display: block !important; /* Force display block to ensure visibility */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Move to final position */
+    pointer-events: auto; /* Ensure it is interactive when open */
+}
+
+.select-list .select-item button {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    color: var(--white-2); /* Use default white, remove !important if not needed globally */
+    font-size: var(--fs-6);
+    text-align: left;
+    transition: background-color 0.2s ease;
+    pointer-events: auto; /* Buttons within the dropdown should be clickable */
+}
 
     .select-list .select-item button:hover,
     .select-list .select-item button:focus {
         background-color: var(--jet);
-        color: var(--emerald-green);
+        color: var(--emerald-green); /* Use default emerald, remove !important if not needed globally */
+    }
+
+    /* Add padding to the main content when dropdown is open */
+    .main-content.dropdown-open-padding {
+        padding-bottom: 250px; /* Adjust this value as needed to accommodate the dropdown height */
+        transition: padding-bottom 0.25s ease; /* Smooth transition for padding change */
     }
 }
 
 
-/* Responsive larger than 580px screen */
+/* For tablets and larger devices (screens 580px wide and up) */
 @media (min-width: 580px) {
 
   /**
@@ -1889,238 +1953,15 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .blog-content { padding: 25px; }
 
-  /* Hide mobile filter on screens larger than 580px */
+  /* Hide mobile filter on screens smaller than 580px and greater than 579px */
   .filter-select-box {
+    display: none !important; /* Explicitly hide mobile dropdown on larger screens */
+  }
+  .select-list { /* Explicitly hide the actual dropdown content on larger screens */
       display: none;
   }
   .filter-list { /* Show desktop filter buttons */
-      display: flex; /* Assuming it was hidden by default on mobile */
-  }
-
-  /**
-   * #CONTACT
-   */
-  .mapbox {
-    height: 380px;
-    border-radius: 18px;
-  }
-
-  .input-wrapper {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 30px;
-  }
-
-  .form-input { padding: 15px 20px; }
-
-  textarea.form-input { margin-bottom: 30px; }
-
-  .form-btn {
-    position: relative;
-    width: 100%;
-    background: var(--border-gradient-onyx);
-    color: var(--emerald-green);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 20px;
-    border-radius: 14px;
-    font-size: var(--fs-6);
-    text-transform: capitalize;
-    box-shadow: var(--shadow-3);
-    z-index: 1;
-    transition: var(--transition-1);
-  }
-
-  .form-btn::before {
-    content: "",;
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    background: var(--bg-gradient-jet);
-    transition: var(--transition-1);
-    z-index: -1;
-  }
-
-  .form-btn:hover { background: var(--bg-gradient-emerald-1); }
-
-  .form-btn:hover::before { background: var(--bg-gradient-emerald-2); }
-
-  .form-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-
-  .form-btn:disabled:hover { background: var(--border-gradient-onyx); }
-
-  .form-btn:disabled:hover::before { background: var(--bg-gradient-jet); }
-
-}
-
-
-/* Responsive larger than 768px screen */
-@media (min-width: 768px) {
-
-  /**
-   * REUSED STYLE
-   */
-  .sidebar, article {
-    width: auto; /* Allow auto width for mobile/tablet */
-    max-width: 700px; /* Constrain max width for this breakpoint */
-    padding: 30px; /* Consistent padding for tablet cards */
-  }
-
-  .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
-
-  /**
-   * MAIN
-   * Reverted to block display (stacking) for tablets
-   */
-  main {
-    display: block; /* Stacks sidebar and main-content vertically */
-    margin-top: 60px; /* Adjust top margin for visual spacing (navbar is now inside main-content) */
-    margin-inline: auto; /* Center the entire main content block */
-    max-width: 700px; /* Limit max-width for tablet */
-    padding: 20px; /* Consistent padding around entire main area */
-  }
-
-  .main-content {
-    min-width: 0;
-    flex-grow: 0;
-    width: auto;
-    margin: 0;
-    padding-top: 0; /* Remove padding-top from main-content, navbar will handle its own space */
-  }
-
-  /**
-   * SIDEBAR
-   * Reverted to behave like a standard block, collapsible sidebar on tablet
-   */
-  .sidebar {
-    position: relative; /* Revert to relative positioning */
-    top: auto; /* Remove sticky top */
-    max-height: 180px; /* Collapsed height for tablet */
-    height: auto;
-    margin-bottom: 30px; /* Space below sidebar */
-    padding: 30px; /* Adjusted padding for tablet */
-    z-index: 1; /* Standard z-index */
-    border-radius: 20px; /* All corners rounded for card look */
-    width: auto; /* Revert to auto width */
-  }
-
-  .sidebar.active {
-    max-height: 600px; /* Expanded height for tablet */
-  }
-
-  .sidebar-info { flex-direction: row; /* Keep avatar and name side-by-side on tablet */
-    justify-content: flex-start; /* Align to start */
-    align-items: center; /* Vertically align */
-  }
-
-  .avatar-box {
-    width: 100px; /* Consistent with 580px+ */
-    height: 100px; /* Consistent with 580px+ */
-  }
-  .info-content .name {
-    text-align: left; /* Align name left next to avatar */
-    white-space: normal;
-  }
-  .info-content .title {
-    margin: 0; /* Remove auto margin */
-  }
-  .info_more-btn { display: block; } /* Show mobile toggle button on tablets too */
-  .sidebar-info_more { /* Hide contact info by default on tablet, controlled by toggle */
-    opacity: 0;
-    visibility: hidden;
-  }
-  .sidebar.active .sidebar-info_more { /* Show when active */
-    opacity: 1;
-    visibility: visible;
-  }
-  .contacts-list { grid-template-columns: 1fr 1fr; /* Two columns for contacts on tablet */
-    gap: 30px 15px;
-  }
-  .contact-info :is(.contact-link) {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .separator:last-of-type {
-    margin: 32px 0; /* Revert to default spacing */
-    opacity: 1;
-  }
-
-  /**
-   * NAVBAR
-   * Reverted to positioning relative to main content, but at the top-right
-   */
-  .navbar {
-    position: absolute; /* Revert to absolute positioning within main-content */
-    top: 0; /* Position at the top of the main-content */
-    left: auto;
-    right: 0;
-    width: auto; /* Let width be determined by content */
-    height: var(--navbar-height); /* Keep using the variable for consistency */
-    border-radius: 0 20px; /* Top-right rounded corner */
-    padding: 0 20px;
-    box-shadow: none; /* Remove box shadow */
-    background: transparent; /* Transparent background */
-    z-index: 5; /* Standard z-index */
-    display: block; /* Revert to block display */
-  }
-  .navbar-list {
-    justify-content: flex-end; /* Push links to the right */
-    gap: 30px;
-  }
-  .navbar-link { --fs-8: 15px; }
-
-
-  /**
-   * ABOUT
-   */
-  /* testimonials modal */
-  .testimonials-modal {
-    padding: 30px; /* Increased internal padding for larger modals */
-    border-radius: 20px;
-    max-width: 680px; /* Adjusted max-width for 768px+ */
-    display: flex; /* Use flexbox for better content alignment */
-    flex-direction: row; /* Layout image/quote and content side-by-side */
-    align-items: flex-start; /* Align items to the top */
-    gap: 35px; /* Space between image/quote and content */
-  }
-
-  .testimonials-modal .modal-img-wrapper {
-      flex-shrink: 0; /* Prevent the image wrapper from shrinking */
-      display: flex;
-      flex-direction: column; /* Stack avatar and quote vertically */
-      align-items: center; /* Center them horizontally */
-      margin-top: 0; /* Reset any previous margins */
-  }
-
-  .testimonials-modal .modal-avatar-box img { width: 80px; }
-
-  .testimonials-modal .modal-img-wrapper > img { /* Target quote icon */
-      margin-top: 10px; /* Space between avatar and quote icon */
-  }
-
-  .testimonials-modal .modal-content {
-      text-align: left; /* Align content text left for larger screens */
-      padding-top: 0; /* Reset padding-top if flexbox handles spacing */
-  }
-
-  /**
-   * PORTFOLIO
-   */
-  .article-title { padding-bottom: 20px; }
-
-  /* Adjustments for filter display */
-  .filter-select-box {
-    display: none; /* Hide dropdown on desktop and tablet */
-  }
-
-  .filter-list {
-    display: flex; /* Show filter buttons on desktop and tablet */
+    display: flex !important; /* Ensure it's flex for horizontal layout */
     justify-content: flex-start;
     align-items: center;
     gap: 25px;
@@ -2141,7 +1982,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   /* portfolio and blog grid */
   .project-list {
     display: grid; /* Explicitly set display grid */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adaptive columns */
+    grid-template-columns: repeat(2, 1fr); /* Two columns for tablets and medium screens */
     gap: 30px; /* Keep consistent gap */
     padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
   }
@@ -2226,7 +2067,316 @@ textarea.form-input::-webkit-resizer { display: none; }
 }
 
 
-/* Responsive larger than 1024px screen */
+/* For tablets (screens 768px wide and up) */
+@media (min-width: 768px) {
+
+  /**
+   * REUSED STYLE
+   */
+  .sidebar, article {
+    width: auto; /* Allow auto width for mobile/tablet */
+    max-width: 700px; /* Constrain max width for this breakpoint */
+    padding: 30px; /* Consistent padding for tablet cards */
+  }
+
+  .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
+
+  /**
+   * MAIN
+   * Reverted to block display (stacking) for tablets
+   */
+  main {
+    display: block; /* Stacks sidebar and main-content vertically */
+    margin-top: 60px; /* Adjust top margin for visual spacing (navbar is now inside main-content) */
+    margin-inline: auto; /* Center the entire main content block */
+    max-width: 700px; /* Limit max-width for tablet */
+    padding: 20px; /* Consistent padding around entire main area */
+  }
+
+  .main-content {
+    min-width: 0;
+    flex-grow: 0;
+    width: auto;
+    margin: 0;
+    padding-top: 0; /* Remove padding-top from main-content, navbar will handle its own space */
+  }
+
+  /**
+   * SIDEBAR
+   * Reverted to behave like a standard block, collapsible sidebar on tablet
+   */
+  .sidebar {
+    position: relative; /* Revert to relative positioning */
+    top: auto; /* Remove sticky top */
+    max-height: 112px; /* Collapsed height for tablet (same as mobile) */
+    overflow: hidden; /* Hide overflow when collapsed */
+    height: auto;
+    margin-bottom: 30px; /* Space below sidebar */
+    padding: 15px; /* Adjusted padding for tablet, same as mobile */
+    border-radius: 20px; /* All corners rounded for card look */
+    width: auto; /* Revert to auto width */
+  }
+
+  .sidebar.active {
+    max-height: 405px; /* Expanded height for tablet (same as mobile) */
+    overflow: visible; /* Show overflow when active */
+  }
+
+  .sidebar-info {
+    flex-direction: column; /* Stack avatar and name vertically on tablet (like mobile) */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+
+  .avatar-box {
+    width: 80px; /* Consistent with mobile */
+    height: 80px; /* Consistent with mobile */
+  }
+  .avatar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+
+  .info-content .name {
+    text-align: center; /* Center align name */
+    white-space: normal;
+  }
+  .info-content .title {
+    margin: auto; /* Center align title */
+    width: max-content; /* Keep title width constrained */
+  }
+  .info_more-btn {
+    display: block; /* Show mobile toggle button on tablets too */
+    top: -15px; /* Position button like on mobile */
+    right: -15px; /* Position button like on mobile */
+    padding: 10px; /* Consistent padding */
+    border-radius: 0 15px; /* Consistent border radius */
+    font-size: 13px; /* Consistent font size */
+    color: var(--emerald-green); /* Consistent color */
+    background: var(--border-gradient-onyx); /* Consistent background */
+    box-shadow: var(--shadow-2); /* Consistent shadow */
+    transition: var(--transition-1); /* Consistent transition */
+    z-index: 1; /* Consistent z-index */
+  }
+  .info_more-btn::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: var(--bg-gradient-jet);
+    transition: var(--transition-1);
+    z-index: -1;
+  }
+
+  .info_more-btn span {
+    display: block; /* Show 'Show Contacts' text */
+  }
+  .info_more-btn ion-icon {
+    display: none; /* Hide icon on tablet, text is enough */
+  }
+
+  .sidebar-info_more { /* Hide contact info by default on tablet, controlled by toggle */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-2), visibility var(--transition-2);
+  }
+  .sidebar.active .sidebar-info_more { /* Show when active */
+    opacity: 1;
+    visibility: visible;
+  }
+  .contacts-list {
+    grid-template-columns: 1fr; /* Single column for contacts on tablet (like mobile) */
+    gap: 16px; /* Consistent gap with mobile */
+  }
+  .contact-info :is(.contact-link) {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .separator:last-of-type {
+    margin: 16px 0; /* Consistent with mobile separator */
+    opacity: 1; /* Ensure visibility */
+  }
+
+  /**
+   * NAVBAR
+   * Reverted to positioning relative to main content, but at the top-right
+   */
+  .navbar {
+    position: absolute; /* Revert to absolute positioning within main-content */
+    top: 0; /* Position at the top of the main-content */
+    left: auto;
+    right: 0;
+    width: auto; /* Let width be determined by content */
+    height: var(--navbar-height); /* Keep using the variable for consistency */
+    border-radius: 0 20px; /* Top-right rounded corner */
+    padding: 0 20px;
+    box-shadow: none; /* Remove box shadow */
+    background: transparent; /* Transparent background */
+    z-index: 5; /* Standard z-index */
+    display: block; /* Revert to block display */
+  }
+  .navbar-list {
+    justify-content: flex-end; /* Push links to the right */
+    gap: 30px;
+  }
+  .navbar-link { --fs-8: 14px; }
+
+
+  /**
+   * ABOUT
+   */
+  /* testimonials modal */
+  .testimonials-modal {
+    padding: 30px; /* Increased internal padding for larger modals */
+    border-radius: 20px;
+    max-width: 680px; /* Adjusted max-width for 768px+ */
+    display: flex; /* Use flexbox for better content alignment */
+    flex-direction: row; /* Layout image/quote and content side-by-side */
+    align-items: flex-start; /* Align items to the top */
+    gap: 35px; /* Space between image/quote and content */
+  }
+
+  .testimonials-modal .modal-img-wrapper {
+      flex-shrink: 0; /* Prevent the image wrapper from shrinking */
+      display: flex;
+      flex-direction: column; /* Stack avatar and quote vertically */
+      align-items: center; /* Center them horizontally */
+      margin-top: 0; /* Reset any previous margins */
+  }
+
+  .testimonials-modal .modal-avatar-box img { width: 80px; }
+
+  .testimonials-modal .modal-img-wrapper > img { /* Target quote icon */
+      margin-top: 10px; /* Space between avatar and quote icon */
+  }
+
+  .testimonials-modal .modal-content {
+      text-align: left; /* Align content text left for larger screens */
+      padding-top: 0; /* Reset padding-top if flexbox handles spacing */
+  }
+
+  /**
+   * PORTFOLIO
+   */
+  .article-title { padding-bottom: 20px; }
+
+  /* Adjustments for filter display */
+  .filter-select-box {
+    display: none !important; /* Explicitly hide mobile dropdown on larger screens */
+  }
+
+  .filter-list {
+    display: flex !important; /* Show filter buttons on desktop and tablet */
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+    padding-left: 5px;
+    margin-bottom: 30px;
+  }
+
+  .filter-item button {
+    color: var(--light-gray);
+    font-size: var(--fs-5);
+    transition: var(--transition-1);
+  }
+
+  .filter-item button:hover { color: var(--light-gray-70); }
+
+  .filter-item button.active { color: var(--emerald-green); }
+
+  /* portfolio and blog grid */
+  .project-list {
+    display: grid; /* Explicitly set display grid */
+    grid-template-columns: repeat(2, 1fr); /* Two columns for tablets */
+    gap: 30px; /* Keep consistent gap */
+    padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
+  }
+  .blog-posts-list {
+    display: grid; /* Explicitly set display grid */
+    grid-template-columns: 1fr 1fr; /* Reverted to original for 768px+ */
+    gap: 30px; /* Keep consistent gap */
+  }
+
+  .project-item {
+    min-width: 0; /* Allow flex/grid items to shrink below their content size */
+    width: auto; /* Allow item to size based on grid */
+    line-height: normal; /* Allow normal line height for text */
+  }
+  .project-img {
+    position: relative; /* Added for absolute positioning of the icon */
+    height: 200px; /* Maintain fixed height for consistency */
+    overflow: hidden; /* Ensure images are clipped by this container */
+    border-radius: 12px; /* Ensure image corners are rounded */
+  }
+
+  .project-img img { /* Target img within project-img for precise control */
+    width: 100%; /* Ensure image fills its container */
+    height: 100%;
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    display: block; /* Remove any extra spacing */
+    transition: var(--transition-1); /* Smooth transition for zoom effect */
+  }
+
+  /* Hover effect for project image zoom */
+  .project-item > a:hover .project-img img {
+    transform: scale(1.1);
+  }
+
+  /* Corrected eye icon visibility and z-index */
+  .project-item-icon-box {
+    position: absolute; /* Ensure it's positioned for z-index to work */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the icon */
+    background: hsla(0, 0%, 0%, 0.6); /* Add a subtle background to make it stand out */
+    border-radius: 50%; /* Make it circular */
+    padding: 10px; /* Add some padding around the icon */
+    z-index: 10; /* A higher z-index to ensure it's on top of the image and content */
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Not clickable when hidden */
+    transition: opacity 0.25s ease-in-out; /* Smooth transition */
+  }
+
+  .project-item-icon-box ion-icon { /* Explicitly set icon color to white */
+      color: var(--white-1);
+  }
+
+  .project-item > a:hover .project-item-icon-box {
+    opacity: 1; /* Visible on hover */
+    pointer-events: auto; /* Clickable on hover */
+  }
+
+  /* Text color for project titles and categories */
+  .project-title {
+    color: var(--white-2); /* Set to white */
+    transition: var(--transition-1); /* Add transition for title color change */
+  }
+  .project-category {
+    color: var(--light-gray-70); /* Set to light gray */
+  }
+
+  /* Hover effect for project title color */
+  .project-item > a:hover .project-title {
+    color: var(--emerald-green);
+  }
+
+  /**
+   * CONTACT
+   */
+  .input-wrapper { grid-template-columns: 1fr 1fr; }
+
+  .form-btn {
+    width: max-content;
+    margin-left: auto;
+  }
+}
+
+
+/* For large desktops and wider screens (screens 1024px wide and up) */
 @media (min-width: 1024px) {
 
   /**
@@ -2277,96 +2427,63 @@ textarea.form-input::-webkit-resizer { display: none; }
    */
   .sidebar {
     position: sticky;
-    top: 60px; /* Stick to top after 60px scroll */
+    top: 60px;
     max-height: max-content; /* Allow sidebar to take full height on large screens */
     height: auto; /* Ensure it's not fixed height */
     margin-bottom: 0;
-    padding-top: 60px; /* Push content down from sticky top */
+    padding-top: 60px;
     z-index: 1;
-    border-radius: 20px; /* All corners rounded for card look */
   }
+
+  .sidebar-info { flex-direction: column; }
+
   .avatar-box {
     width: 150px; /* Revert to larger size for desktop */
     height: 150px;
   }
+
   .info-content .name {
     white-space: nowrap; /* Re-enable nowrap for name on very wide screens if desired */
     text-align: center;
   }
 
-  /**
-   * NAVBAR
-   */
-  .navbar {
-    position: absolute; /* Revert to absolute positioning for desktop */
-    top: 0;
-    left: auto;
-    right: 0;
-    width: auto; /* Allow width to be determined by content */
-    height: var(--navbar-height); /* Let height be determined by its content */
-    border-radius: 0 20px; /* Top-right rounded corner */
-    padding: 0 20px;
-    box-shadow: none; /* Remove box shadow */
-    background: transparent; /* Transparent background */
-    z-index: 5; /* Standard z-index */
+  .info-content .title { margin: auto; }
+
+  .info_more-btn { display: none; }
+
+  .sidebar-info_more {
+    opacity: 1;
+    visibility: visible;
   }
-  .navbar-list {
-    justify-content: flex-end;
-    gap: 30px;
+
+  .contacts-list { grid-template-columns: 1fr; }
+
+  .contact-info :is(.contact-link) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .navbar-link { font-weight: var(--fw-500); }
+
+  .contact-info :is(.contact-link, time, address) {
+    --fs-7: 14px;
+    font-weight: var(--fw-300);
+  }
+
+  .separator:last-of-type {
+    margin: 15px 0;
+    opacity: 0;
+  }
+
+  .social-list { justify-content: center; }
 
   /**
-   * ABOUT
-   */
-  /* service */
-  .service-list {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px 25px;
-  }
+	 * RESUME
+	 */
+  .timeline-text { max-width: 700px; }
 
-  /* Tech Stack Section */
-  .tech-stack {
-    margin-top: 50px; /* Further adjusted spacing for larger screens */
-    margin-bottom: 50px;
-  }
-  .tech-stack-title {
-    margin-bottom: 30px;
-  }
-  .logo-carousel-container {
-    padding: 30px 0;
-  }
-  .logo-item {
-    padding: 0 40px; /* More space between logos */
-  }
-  .logo-item img {
-    width: 100px; /* Larger logos */
-    height: 100px;
-  }
-
-  /* testimonials */
-  .testimonials-item { min-width: calc(50% - 15px); }
-
-  /**
-   * PORTFOLIO
-   */
-  .project-list {
-    display: grid; /* Explicitly set display grid */
-    grid-template-columns: repeat(3, 1fr); /* Three columns on larger screens */
-    gap: 30px; /* Keep consistent gap */
-    padding-bottom: 30px; /* Added padding to ensure content is not clipped at the bottom */
-  }
-
-  /**
-   * BLOG
-   */
-  /* At 1024px+, no specific grid-template-columns for blog-posts-list in original.
-     It will inherit from 768px+ which is 1fr 1fr. */
-  .blog-banner-box { height: 230px; }
 }
 
-
-/* Responsive larger than 1250px screen */
+/* For extra large desktops (screens 1250px wide and up) */
 @media (min-width: 1250px) {
 
   /**

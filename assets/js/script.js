@@ -1,14 +1,26 @@
 'use strict';
 
 // element toggle function
-const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
+const elementToggleFunc = function (elem)
+{ elem.classList.toggle("active");
+  console.log('Toggled active class on:', elem, 'New state:', elem.classList.contains("active"));
+ }
 
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+const sidebarBtnSpan = sidebarBtn.querySelector("span"); // Get the span inside the button
 
 // sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+sidebarBtn.addEventListener("click", function () {
+  elementToggleFunc(sidebar);
+  // Toggle the text content of the button based on sidebar's active state
+  if (sidebar.classList.contains("active")) {
+    sidebarBtnSpan.textContent = "Hide Contacts";
+  } else {
+    sidebarBtnSpan.textContent = "Show Contacts";
+  }
+});
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
@@ -46,15 +58,75 @@ overlay.addEventListener("click", testimonialsModalFunc);
 
 
 // custom select variables for Portfolio filters
-const select = document.querySelector("[data-select]");
-const selectList = document.querySelector("[data-select-list]"); // Targeted the new data attribute
-const selectValue = document.querySelector("[data-selecct-value]");
+const select = document.querySelector("[data-select]"); // The div.filter-select-box element (mobile dropdown button)
+const selectList = document.querySelector("[data-select-list]"); // The ul dropdown list (mobile dropdown content)
+const selectValue = document.querySelector("[data-selecct-value]"); // The span that shows selected value
 const filterBtn = document.querySelectorAll("[data-filter-btn]"); // Desktop filter buttons
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
+// Get relevant elements for dropdown behavior and layout adjustment
+const portfolioArticle = document.querySelector('article[data-page="portfolio"]');
+const mainContent = document.querySelector('.main-content'); // Get the main content wrapper
+
+// CRITICAL FIX: Ensure the dropdown and parent article start in a clean, non-active state.
+// This prevents the "already active" issue observed in the console.
+document.addEventListener('DOMContentLoaded', () => {
+    if (select) {
+        select.classList.remove('active');
+        console.log("On DOMContentLoaded: Removed 'active' class from filter-select-box.");
+    }
+    if (portfolioArticle) {
+        portfolioArticle.classList.remove('dropdown-active-parent');
+        console.log("On DOMContentLoaded: Removed 'dropdown-active-parent' class from portfolio article.");
+    }
+    if (mainContent) {
+        mainContent.classList.remove('dropdown-open-padding'); // Ensure it's off initially
+    }
+});
+
+
+// Event listener for the mobile filter dropdown button
+select.addEventListener("click", function () {
+  console.log("Dropdown click detected! Select element active state before toggle:", select.classList.contains("active"));
+  elementToggleFunc(select); // Toggle 'active' on the dropdown button itself
+  console.log("Select element active state after toggle:", select.classList.contains("active"));
+
+  // Toggle 'dropdown-active-parent' class on the portfolio article (for overflow)
+  if (portfolioArticle) {
+    if (select.classList.contains("active")) {
+      portfolioArticle.classList.add("dropdown-active-parent");
+      console.log("Added dropdown-active-parent to portfolio article.");
+      // Add padding to main-content to push down content below the dropdown
+      if (mainContent) {
+          mainContent.classList.add('dropdown-open-padding');
+          console.log("Added dropdown-open-padding to main-content.");
+      }
+      // Scroll the page to ensure the dropdown is visible
+      select.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      portfolioArticle.classList.remove("dropdown-active-parent");
+      console.log("Removed dropdown-active-parent from portfolio article.");
+      // Remove padding when dropdown closes
+      if (mainContent) {
+          mainContent.classList.remove('dropdown-open-padding');
+          console.log("Removed dropdown-open-padding from main-content.");
+      }
+    }
+  }
+});
 
 // Function to populate the mobile filter dropdown
 const populateMobileFilterDropdown = function () {
+    console.log("populateMobileFilterDropdown called.");
+    console.log("Number of filter buttons found:", filterBtn.length);
+
+    // Ensure filterBtn is not empty before populating
+    // This is important because the desktop filter buttons must be in the DOM
+    // for categories to be extracted for the mobile dropdown.
+    if (filterBtn.length === 0) {
+        console.warn("No desktop filter buttons ([data-filter-btn]) found to populate mobile dropdown. Please ensure they are present in index.html and loaded before this function runs.");
+        return; // Exit if no buttons found
+    }
+
     selectList.innerHTML = ''; // Clear existing items
 
     // Get categories from the desktop filter buttons
@@ -68,6 +140,11 @@ const populateMobileFilterDropdown = function () {
         selectList.appendChild(listItem);
     });
 
+    console.log("Mobile filter dropdown populated with items. Total items:", selectList.children.length);
+    // Log the actual HTML content of the selectList to verify items are there
+    console.log("selectList innerHTML:", selectList.innerHTML);
+
+
     // Add event listeners to the newly created select items
     const mobileSelectItems = selectList.querySelectorAll('[data-select-item]');
     mobileSelectItems.forEach(item => {
@@ -75,7 +152,19 @@ const populateMobileFilterDropdown = function () {
             let selectedValue = this.dataset.category; // Use dataset.category directly
             selectValue.innerText = this.innerText;
             filterFunc(selectedValue); // Filter based on the selected category
-            elementToggleFunc(select); // Close the dropdown
+            
+            // Close the dropdown after selection by toggling 'active' on the parent div
+            elementToggleFunc(select); // This closes the dropdown
+            // Ensure the dropdown-active-parent class is removed from the article after selection
+            if (portfolioArticle) {
+                portfolioArticle.classList.remove("dropdown-active-parent");
+                console.log("Removed dropdown-active-parent after selection.");
+            }
+            // Remove padding after selection
+            if (mainContent) {
+                mainContent.classList.remove('dropdown-open-padding');
+                console.log("Removed dropdown-open-padding from main-content after selection.");
+            }
         });
     });
 }
@@ -91,13 +180,20 @@ const filterFunc = function (selectedValue) {
 }
 
 // add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[0]; // Initialize with the 'All' button
+// Initialise lastClickedBtn to the first filter button if available,
+// otherwise defer its assignment until it's actually used.
+let lastClickedBtn; 
+if (filterBtn.length > 0) {
+    lastClickedBtn = filterBtn[0]; // Initialize with the 'All' button
+}
 
 for (let i = 0; i < filterBtn.length; i++) {
   filterBtn[i].addEventListener("click", function () {
     let selectedValue = this.dataset.category; // Use dataset.category
     filterFunc(selectedValue);
-    lastClickedBtn.classList.remove("active");
+    if (lastClickedBtn) { // Ensure lastClickedBtn exists before attempting to remove class
+        lastClickedBtn.classList.remove("active");
+    }
     this.classList.add("active");
     lastClickedBtn = this;
   });
@@ -146,6 +242,9 @@ for (let i = 0; i < navigationLinks.length; i++) {
     if (this.innerHTML.toLowerCase() === 'portfolio') {
         renderPortfolioItems(allPortfolioItems); // Show all portfolio items
         document.getElementById('portfolio-detail-content').style.display = 'none'; // Hide detail
+        // Show the entire filter section for portfolio page
+        document.querySelector('.portfolio .projects').style.display = 'block';
+
         // Reset filter button to 'All' on desktop
         const desktopAllButton = document.querySelector('.filter-list [data-filter-btn][data-category="all"]');
         if (lastClickedBtn) {
@@ -158,6 +257,16 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
         // Reset mobile select dropdown text to "Select category"
         selectValue.innerText = "Select category";
+        // Also ensure the mobile dropdown itself is closed when navigating to portfolio
+        select.classList.remove('active');
+        // Ensure the dropdown-active-parent class is removed from the article when navigating away or closing
+        if (portfolioArticle) {
+            portfolioArticle.classList.remove("dropdown-active-parent");
+        }
+        // Ensure padding is removed when navigating away from or closing portfolio
+        if (mainContent) {
+            mainContent.classList.remove('dropdown-open-padding');
+        }
     }
      // If navigating to 'Resume' page, load resume data
      if (this.innerHTML.toLowerCase() === 'resume') {
@@ -192,6 +301,18 @@ const openPortfolioDetail = function (item) {
   portfolioList.style.display = 'none'; // Hide the project list
   portfolioDetailContent.style.display = 'block'; // Show the detail content
   window.scrollTo(0, 0); // Scroll to top of the detail content
+
+  // Hide the entire filter section when showing detail
+  document.querySelector('.portfolio .projects').style.display = 'none';
+  select.classList.remove('active'); // Ensure mobile dropdown is closed
+  // Also remove the dropdown-active-parent class from the article
+  if (portfolioArticle) {
+      portfolioArticle.classList.remove("dropdown-active-parent");
+  }
+  // Remove padding when opening detail page
+  if (mainContent) {
+      mainContent.classList.remove('dropdown-open-padding');
+  }
 }
 
 // Function to close the portfolio detail (in-page)
@@ -199,6 +320,19 @@ const closePortfolioDetail = function () {
   portfolioList.style.display = 'grid'; // Show the project list (as a grid)
   portfolioDetailContent.style.display = 'none'; // Hide the detail content
   window.scrollTo(0, 0); // Scroll to top of the list
+
+  // Show the entire filter section again when returning to list
+  document.querySelector('.portfolio .projects').style.display = 'block';
+  select.classList.remove('active'); // Ensure mobile dropdown is closed
+  selectValue.innerText = "Select category"; // Reset mobile dropdown text to default
+  // Also remove the dropdown-active-parent class from the article
+  if (portfolioArticle) {
+      portfolioArticle.classList.remove("dropdown-active-parent");
+  }
+  // Remove padding if it was added
+  if (mainContent) {
+      mainContent.classList.remove('dropdown-open-padding');
+  }
 }
 
 // Add event listener for the "Back to Projects" button
