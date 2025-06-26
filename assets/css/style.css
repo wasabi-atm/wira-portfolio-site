@@ -1074,6 +1074,9 @@ main {
     }
 }
 
+.avatar-toggle-text {
+      display: none; /* Hide text on very small screens */
+    }
 
 /* Back button for portfolio detail */
 .portfolio-back-btn {
@@ -1480,6 +1483,10 @@ textarea.form-input::-webkit-resizer { display: none; }
     /* Override article overflow for dropdown visibility */
     article[data-spotlight-card].dropdown-active-parent {
         overflow: visible; /* Use visible instead of !important if possible, or keep if necessary */
+    }
+
+    .avatar-toggle-text {
+      display: none; /* Hide text on very small screens */
     }
 
     /* Adjust modal padding to prevent being too small */
