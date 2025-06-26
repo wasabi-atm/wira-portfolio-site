@@ -33,14 +33,14 @@
     hsla(240, 1%, 18%, 0.251) 0%,
     hsla(240, 2%, 11%, 0) 100%
   ), hsl(240, 2%, 13%);
-  --bg-gradient-emerald-1: linear-gradient( /* Renamed from --bg-gradient-emerald-1 */
+  --bg-gradient-emerald-1: linear-gradient(
     to bottom right,
-    hsl(160, 100%, 41%) 0%, /* A vibrant emerald green */
+    hsl(160, 100%, 41%) 0%,
     hsla(160, 100%, 41%, 0) 50%
   );
-  --bg-gradient-emerald-2: linear-gradient( /* Renamed from --bg-gradient-emerald-2 */
+  --bg-gradient-emerald-2: linear-gradient(
     135deg,
-    hsla(160, 100%, 41%, 0.251) 0%, /* Lighter, semi-transparent emerald */
+    hsla(160, 100%, 41%, 0.251) 0%,
     hsla(160, 100%, 41%, 0) 59.86%
   ), hsl(240, 2%, 13%);
   --border-gradient-onyx: linear-gradient(
@@ -48,9 +48,9 @@
     hsl(0, 0%, 25%) 0%,
     hsla(0, 0%, 25%, 0) 50%
   );
-  --text-gradient-mint: linear-gradient( /* Renamed from --text-gradient-mint */
+  --text-gradient-mint: linear-gradient(
     to right,
-    hsl(160, 100%, 60%), /* A lighter, fresh mint green */
+    hsl(160, 100%, 60%),
     hsl(170, 100%, 50%)
   );
 
@@ -63,8 +63,8 @@
   --smoky-black: hsl(0, 0%, 7%);
   --white-1: hsl(0, 0%, 100%);
   --white-2: hsl(0, 0%, 98%);
-  --emerald-green: hsl(160, 100%, 41%); /* Renamed from --emerald-green */
-  --jade-green: hsl(150, 45%, 45%); /* Renamed from --jade-green, a muted jade */
+  --emerald-green: hsl(160, 100%, 41%);
+  --jade-green: hsl(150, 45%, 45%);
   --light-gray: hsl(0, 0%, 84%);
   --light-gray-70: hsla(0, 0%, 84%, 0.7);
   --bittersweet-shimmer: hsl(0, 43%, 51%);
@@ -794,8 +794,6 @@ main {
 /* Keyframes for the infinite horizontal scrolling animation */
 @keyframes scroll-left {
   0% { transform: translateX(0%); }
-  /* Scrolls half the width of the duplicated content to create a seamless loop.
-     This assumes you have duplicated your logos once inside .logo-carousel. */
   100% { transform: translateX(-50%); }
 }
 
