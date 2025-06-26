@@ -425,6 +425,36 @@ main {
   gap: 15px;
 }
 
+/* Avatar Wrapper for text and image */
+.avatar-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 15px; /* Space between avatar and info content */
+}
+
+.avatar-toggle-text {
+    position: absolute;
+    top: -25px; /* Position above the avatar */
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--emerald-green);
+    font-size: var(--fs-8);
+    font-weight: var(--fw-500);
+    opacity: 1;
+    animation: breathing 2s ease-in-out infinite alternate;
+    white-space: nowrap; /* Keep text on one line */
+    pointer-events: none; /* Allow clicks to pass through to the image */
+    z-index: 2; /* Ensure it's above the avatar */
+}
+
+@keyframes breathing {
+    0% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
 .sidebar-info .name {
   background-image: linear-gradient(to right, var(--gradient-name-start), var(--gradient-name-end));
   -webkit-background-clip: text;
@@ -444,6 +474,8 @@ main {
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+  overflow: hidden; /* Important for flip effect */
+  perspective: 1000px; /* For 3D transform */
 }
 
 .avatar-box img {
@@ -451,7 +483,15 @@ main {
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+  transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95); /* Smoother transition */
+  backface-visibility: hidden; /* Hide back of the image during rotation */
 }
+
+/* Flip animation for the image */
+.avatar-img-flipped {
+    transform: rotateY(180deg);
+}
+
 
 .info-content .name {
   color: var(--white-2);
@@ -2155,7 +2195,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     padding: 10px; /* Consistent padding */
     border-radius: 0 15px; /* Consistent border radius */
     font-size: 13px; /* Consistent font size */
-    color: var(--emerald-green); /* Consistent color */
+    color: var(--emerald-green);
     background: var(--border-gradient-onyx); /* Consistent background */
     box-shadow: var(--shadow-2); /* Consistent shadow */
     transition: var(--transition-1); /* Consistent transition */

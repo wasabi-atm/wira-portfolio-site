@@ -22,6 +22,45 @@ sidebarBtn.addEventListener("click", function () {
   }
 });
 
+// Profile picture toggle
+const avatarBox = document.getElementById('avatar-box');
+const avatarImg = document.getElementById('avatar-img');
+const avatarToggleText = document.getElementById('avatar-toggle-text');
+
+const avatarOriginalSrc = "https://i.ibb.co/prdLRVqn/my-avatar.png"; // Your original avatar
+const avatarOriginalAlt = "Wira Wibisana Avatar";
+const avatarAlternateSrc = "https://i.ibb.co/yHtghq8/my-avatar-2.png"; // Your "real me" photo - UPDATED URL
+const avatarAlternateAlt = "Wira Wibisana Photo";
+
+let isAvatarOriginal = true; // State to track which image is currently displayed
+
+avatarBox.addEventListener('click', function() {
+    // Add flip animation class
+    avatarImg.classList.add('avatar-img-flipped');
+
+    // After half of the animation duration, change the image source
+    // This creates a smoother flip effect where the image changes mid-rotation
+    setTimeout(() => {
+        if (isAvatarOriginal) {
+            avatarImg.src = avatarAlternateSrc;
+            avatarImg.alt = avatarAlternateAlt;
+            avatarToggleText.textContent = "Click picture to see my avatar";
+        } else {
+            avatarImg.src = avatarOriginalSrc;
+            avatarImg.alt = avatarOriginalAlt;
+            avatarToggleText.textContent = "Click picture to see the real me";
+        }
+        isAvatarOriginal = !isAvatarOriginal;
+    }, 300); // Half of 0.6s transition
+
+    // Remove the flip animation class after the full animation duration
+    // This prepares the image for the next click
+    setTimeout(() => {
+        avatarImg.classList.remove('avatar-img-flipped');
+    }, 600); // Full 0.6s transition
+});
+
+
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
 const modalContainer = document.querySelector("[data-modal-container]"); // This is ONLY for testimonials modal now
@@ -259,7 +298,7 @@ for (let i = 0; i < navigationLinks.length; i++) {
         selectValue.innerText = "Select category";
         // Also ensure the mobile dropdown itself is closed when navigating to portfolio
         select.classList.remove('active');
-        // Ensure the dropdown-active-parent class is removed from the article when navigating away or closing
+        // Also remove the dropdown-active-parent class from the article
         if (portfolioArticle) {
             portfolioArticle.classList.remove("dropdown-active-parent");
         }
