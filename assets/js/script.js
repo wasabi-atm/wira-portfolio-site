@@ -27,9 +27,9 @@ const avatarBox = document.getElementById('avatar-box');
 const avatarImg = document.getElementById('avatar-img');
 const avatarToggleText = document.getElementById('avatar-toggle-text');
 
-const avatarOriginalSrc = "https://i.ibb.co/prdLRVqn/my-avatar.png"; // Your original avatar
+const avatarOriginalSrc = "https://ik.imagekit.io/wirawibisana/my-avatar.png?updatedAt=1751000956490"; // Your original avatar
 const avatarOriginalAlt = "Wira Wibisana Avatar";
-const avatarAlternateSrc = "https://i.ibb.co/yHtghq8/my-avatar-2.png"; // Your "real me" photo - UPDATED URL
+const avatarAlternateSrc = "https://ik.imagekit.io/wirawibisana/my-avatar-2.png"; // Your "real me" photo - UPDATED URL
 const avatarAlternateAlt = "Wira Wibisana Photo";
 
 let isAvatarOriginal = true; // State to track which image is currently displayed
